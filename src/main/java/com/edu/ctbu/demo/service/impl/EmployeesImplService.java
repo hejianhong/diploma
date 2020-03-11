@@ -3,14 +3,14 @@ package com.edu.ctbu.demo.service.impl;
 
 import com.edu.ctbu.demo.dao.EmployeesRepository;
 import com.edu.ctbu.demo.domain.Employees;
-import com.edu.ctbu.demo.service.EmployessService;
+import com.edu.ctbu.demo.service.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EmployeesImplService  implements EmployessService {
+public class EmployeesImplService  implements EmployeesService {
 
 
     @Autowired

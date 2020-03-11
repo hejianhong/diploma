@@ -2,7 +2,7 @@ package com.edu.ctbu.demo.webapi;
 
 
 import com.edu.ctbu.demo.domain.Employees;
-import com.edu.ctbu.demo.service.EmployessService;
+import com.edu.ctbu.demo.service.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,18 +17,18 @@ import java.util.List;
 public class LoginRestController {
 
     @Autowired
-    EmployessService employessService;
+    EmployeesService employeesService;
 
     @GetMapping("/user")
-    public int user(HttpServletRequest httpServletRequest , String name , String password){
+    public int user(HttpServletRequest httprequest , String name , String password){
 
-        List<Employees> employees = employessService.findByNameAndPassword(name,password);
+        List<Employees> employees = employeesService.findByNameAndPassword(name,password);
 
         //判断用户名密码是否存在
 
         if (employees.size() > 0){
 
-            HttpSession session = httpServletRequest.getSession();
+            HttpSession session = httprequest.getSession();
 
             session.setAttribute("userid",employees.get(0).getId());
 

@@ -1,9 +1,6 @@
 <html>
 <!DOCTYPE html>
-<script src="../../static/js/scripts.js"></script>
-<script src="../../static/js/supersized-init.js"></script>
-<script src="../../static/js/supersized.3.2.7.min.js"></script>
-<script src="../../static/js/jquery-3.4.1.min.js"></script>
+
 <html lang="en" class="no-js">
 
 <head>
@@ -15,9 +12,9 @@
     <meta name="author" content="">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../../static/css/reset.css">
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/supersized.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/supersized.css">
 
 
     <script type='text/javascript'>
@@ -66,6 +63,10 @@
         }
     </script>
 
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="/js/supersized-init.js"></script>
+    <script src="/js/supersized.3.2.7.min.js"></script>
 </head>
 
 <body>
@@ -88,5 +89,14 @@
 <div style="text-align:center;">
 
 </div>
+
+<script type="text/javascript">
+
+    function changeimg(){
+
+        $("body").css("background-image","url(/img/2.jpg)");
+    }
+    changeimg();
+</script>
 </html>
 

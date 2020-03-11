@@ -1,5 +1,5 @@
 
-jQuery(document).ready(function() {
+$(window).on('load', function() {
 
     $('.page-container form').submit(function(){
         var username = $(this).find('.username').val();
