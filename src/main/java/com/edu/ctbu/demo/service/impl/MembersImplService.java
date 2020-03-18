@@ -1,6 +1,7 @@
 package com.edu.ctbu.demo.service.impl;
 
 
+import com.edu.ctbu.demo.dao.MembersRepository;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,10 @@ import java.util.List;
 public class MembersImplService implements MembersService {
 
     @Autowired
-    MembersService membersService;
+    MembersRepository membersRepository;
 
     public List<Members> finAll() {
 
-        return membersService.finAll();
+        return membersRepository.findAll();
     }
 }

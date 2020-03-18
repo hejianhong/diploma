@@ -1,5 +1,6 @@
 package com.edu.ctbu.demo.service.impl;
 
+import com.edu.ctbu.demo.dao.SupplierRepository;
 import com.edu.ctbu.demo.domain.Supplier;
 import com.edu.ctbu.demo.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,15 @@ import java.util.List;
 public class SupplierImplService implements SupplierService {
 
     @Autowired
-    SupplierService supplierService;
+    SupplierRepository supplierRepository;
 
     public List<Supplier> finAll(){
 
-        return supplierService.finAll();
+        return supplierRepository.findAll();
+    }
+
+    public List<Supplier> findByName(String name){
+
+        return supplierRepository.findByName(name);
     }
 }

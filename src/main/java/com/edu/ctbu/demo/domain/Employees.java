@@ -16,19 +16,19 @@ public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private long id;
+    private Long id;
 
     private String name;
 
     private Integer gender;
 
-    private Integer contactphonenumber;
+    private Integer phonenumber;
 
     private String shift;
 
-    private String homeaddress;
+    private String address;
 
-    private String dateofregistration;
+    private String registration;//登记日期
 
     private String note;
 

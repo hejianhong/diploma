@@ -18,7 +18,7 @@ public class Members {
 
     private Long cardnumber;
 
-    private String Membername;
+    private String membername;
 
     private Long gender;
 

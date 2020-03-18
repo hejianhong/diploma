@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface SupplierService {
 
-    List<Supplier> finAll();
+    List<Supplier>finAll();
+
+    public List<Supplier> findByName(String name);
 }
