@@ -13,4 +13,10 @@ public interface SupplierService {
     List<Supplier>finAll();
 
     public List<Supplier> findByName(String name);
+
+    Supplier insert(Supplier supplier);
+
+    Supplier update(Supplier supplier);
+
+    void delete(Supplier supplier);
 }

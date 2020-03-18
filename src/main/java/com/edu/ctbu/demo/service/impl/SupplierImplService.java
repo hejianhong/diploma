@@ -24,4 +24,19 @@ public class SupplierImplService implements SupplierService {
 
         return supplierRepository.findByName(name);
     }
+
+    public Supplier insert(Supplier supplier){
+
+        return supplierRepository.save(supplier);
+    }
+
+    public Supplier update(Supplier supplier){
+
+        return supplierRepository.save(supplier);
+    }
+
+    public void delete(Supplier supplier){
+
+        supplierRepository.delete(supplier);
+    }
 }

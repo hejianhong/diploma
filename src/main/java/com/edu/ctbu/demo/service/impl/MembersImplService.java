@@ -19,4 +19,19 @@ public class MembersImplService implements MembersService {
 
         return membersRepository.findAll();
     }
+
+    public Members insert(Members members){
+
+        return membersRepository.save(members);
+    }
+
+    public Members update(Members members){
+
+        return membersRepository.save(members);
+    }
+
+    public void delete(Members members){
+
+        membersRepository.delete(members);
+    }
 }

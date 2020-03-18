@@ -10,4 +10,6 @@ import java.util.List;
 public interface TankService {
 
     List<Tank> findAll();
+
+    public List<Tank> findByNameoftank(String nameoftank);
 }

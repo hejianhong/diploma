@@ -19,4 +19,9 @@ public class TankImplService implements TankService {
 
         return tankRepository.findAll();
     }
+
+    public List<Tank> findByNameoftank(String nameoftank){
+
+        return tankRepository.findByNameoftank(nameoftank);
+    }
 }
