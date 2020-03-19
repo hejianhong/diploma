@@ -75,7 +75,7 @@ public class MembersRestController {
     }
 
 
-    @GetMapping("/getbypagename")
+    @GetMapping("/getbypagemembername")
     public PageUtils getByPageGender(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestParam(value = "membername", defaultValue = "") String membername,
