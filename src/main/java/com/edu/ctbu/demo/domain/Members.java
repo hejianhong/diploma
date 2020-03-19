@@ -20,7 +20,7 @@ public class Members {
 
     private String membername;
 
-    private Long gender;
+    private Integer gender;
 
     private Float originalamount;//原始金额
 

@@ -1,7 +1,11 @@
 package com.edu.ctbu.demo.service;
 
 
+import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Supplier;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +15,10 @@ import java.util.List;
 public interface SupplierService {
 
     List<Supplier>finAll();
+
+    Page<Supplier> findAll(Pageable pageable);
+
+    public Page<Supplier> findAll(Example<Supplier> supplier, Pageable pageable);
 
     public List<Supplier> findByName(String name);
 
