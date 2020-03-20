@@ -3,15 +3,13 @@ package com.edu.ctbu.demo.webapi;
 
 import com.edu.ctbu.demo.core.PageUtils;
 import com.edu.ctbu.demo.domain.Employees;
+import com.edu.ctbu.demo.domain.Supplier;
 import com.edu.ctbu.demo.domain.Tank;
 import com.edu.ctbu.demo.service.TankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -110,5 +108,47 @@ public class TankRestController {
         PageUtils pageUtils = new PageUtils(tankPage.getContent(),tankPage.getTotalElements());
 
         return pageUtils;
+    }
+
+    @GetMapping("/get/{id}")
+    public Tank get(@PathVariable Long id){
+
+        Tank tank=tankService.getById(id);
+
+//        members.setPassword("");
+
+        return tank;
+    }
+
+    @PostMapping("/insert")
+    public Tank insert(Tank tank){
+
+        Tank tank1=tankService.insert(tank);
+
+        return tank1;
+
+    }
+
+    @PutMapping("/update")
+    public Tank update(Tank tank){
+
+        Tank oldtank=tankService.getById(tank.getId());
+
+        if(StringUtils.isEmpty(tank.getNameoftank())){
+
+            tank.setNameoftank(oldtank.getNameoftank());
+        }
+
+        tank=tankService.update(tank);
+
+        return tank;
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+
+        tankService.delete(id);
+
     }
 }

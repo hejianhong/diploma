@@ -8,10 +8,7 @@ import com.edu.ctbu.demo.service.MembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -112,5 +109,47 @@ public class MembersRestController {
         PageUtils pageUtils = new PageUtils(membersPage.getContent(), membersPage.getTotalElements());
 
         return pageUtils;
+    }
+
+    @GetMapping("/get/{id}")
+    public Members get(@PathVariable Long id){
+
+        Members members=membersService.getById(id);
+
+//        members.setPassword("");
+
+        return members;
+    }
+
+    @PostMapping("/insert")
+    public Members insert(Members members){
+
+        Members members1=membersService.insert(members);
+
+        return members1;
+
+    }
+
+    @PutMapping("/update")
+    public Members update(Members members){
+
+        Members oldmembers=membersService.getById(members.getId());
+
+        if(StringUtils.isEmpty(members.getMembername())){
+
+            members.setMembername(oldmembers.getMembername());
+        }
+
+        members=membersService.update(members);
+
+        return members;
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+
+        membersService.delete(id);
+
     }
 }

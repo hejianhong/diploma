@@ -1,6 +1,7 @@
 package com.edu.ctbu.demo.service;
 
 
+import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Supplier;
 import org.springframework.data.domain.Example;
@@ -27,4 +28,8 @@ public interface SupplierService {
     Supplier update(Supplier supplier);
 
     void delete(Supplier supplier);
+
+    void delete(Long id);
+
+    Supplier getById(Long id);
 }

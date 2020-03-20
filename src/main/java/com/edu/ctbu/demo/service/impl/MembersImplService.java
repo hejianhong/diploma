@@ -54,4 +54,18 @@ public class MembersImplService implements MembersService {
 
         membersRepository.delete(members);
     }
+
+    public void delete(Long id){
+
+        Members members = new Members();
+
+        members.setId(id);
+
+        membersRepository.delete(members);
+    }
+
+    public Members getById(Long id){
+
+        return membersRepository.findById(id).orElse(null);
+    }
 }

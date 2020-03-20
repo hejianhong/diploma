@@ -1,6 +1,7 @@
 package com.edu.ctbu.demo.service.impl;
 
 import com.edu.ctbu.demo.dao.SupplierRepository;
+import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Supplier;
 import com.edu.ctbu.demo.service.SupplierService;
@@ -53,5 +54,19 @@ public class SupplierImplService implements SupplierService {
     public void delete(Supplier supplier){
 
         supplierRepository.delete(supplier);
+    }
+
+    public void delete(Long id){
+
+        Supplier supplier = new Supplier();
+
+        supplier.setId(id);
+
+        supplierRepository.delete(supplier);
+    }
+
+    public Supplier getById(Long id){
+
+        return supplierRepository.findById(id).orElse(null);
     }
 }

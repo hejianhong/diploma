@@ -2,16 +2,13 @@ package com.edu.ctbu.demo.webapi;
 
 
 import com.edu.ctbu.demo.core.PageUtils;
-import com.edu.ctbu.demo.domain.Employees;
+import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Supplier;
 import com.edu.ctbu.demo.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -111,5 +108,47 @@ public class SupplierRestController {
         PageUtils pageUtils = new PageUtils(supplierPage.getContent(),supplierPage.getTotalElements());
 
         return pageUtils;
+    }
+
+    @GetMapping("/get/{id}")
+    public Supplier get(@PathVariable Long id){
+
+        Supplier supplier=supplierService.getById(id);
+
+//        members.setPassword("");
+
+        return supplier;
+    }
+
+    @PostMapping("/insert")
+    public Supplier insert(Supplier supplier){
+
+        Supplier supplier1=supplierService.insert(supplier);
+
+        return supplier1;
+
+    }
+
+    @PutMapping("/update")
+    public Supplier update(Supplier supplier){
+
+        Supplier oldsupplier=supplierService.getById(supplier.getId());
+
+        if(StringUtils.isEmpty(supplier.getName())){
+
+            supplier.setName(oldsupplier.getName());
+        }
+
+        supplier=supplierService.update(supplier);
+
+        return supplier;
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+
+        supplierService.delete(id);
+
     }
 }

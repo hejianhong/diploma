@@ -2,6 +2,7 @@ package com.edu.ctbu.demo.service.impl;
 
 
 import com.edu.ctbu.demo.dao.TankRepository;
+import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Tank;
 import com.edu.ctbu.demo.service.TankService;
@@ -53,5 +54,19 @@ public class TankImplService implements TankService {
     public void delete(Tank tank){
 
         tankRepository.delete(tank);
+    }
+
+    public void delete(Long id){
+
+        Tank tank = new Tank();
+
+        tank.setId(id);
+
+        tankRepository.delete(tank);
+    }
+
+    public Tank getById(Long id){
+
+        return tankRepository.findById(id).orElse(null);
     }
 }

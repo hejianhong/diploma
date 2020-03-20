@@ -1,6 +1,7 @@
 package com.edu.ctbu.demo.service;
 
 
+import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Tank;
 import org.springframework.data.domain.Example;
@@ -26,4 +27,8 @@ public interface TankService {
     Tank update(Tank tank);
 
     void delete(Tank tank);
+
+    void delete(Long id);
+
+    Tank getById(Long id);
 }

@@ -27,4 +27,7 @@ public interface MembersService {
 
     void delete(Members members);
 
+    void delete(Long id);
+
+    Members getById(Long id);
 }
