@@ -12,4 +12,9 @@ public class EmployessController {
     @Autowired
     EmployeesService employeesService;
 
+    @RequestMapping("/information/Employees/employeeslist")
+    public String employees(){
+
+        return "/information/Employees/employeeslist";
+    }
 }

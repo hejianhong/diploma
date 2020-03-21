@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>员工列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+        新增员工
+    </button>
+
+    <h2>员工信息表</h2>
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchName">请输入名字</label>
+            <input type="text" class="form-control" id="searchName" placeholder="请输入名称" name="searchName">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+    </form>
+
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchGender">请输入性别</label>
+            <input type="text" class="form-control" id="searchGender" placeholder="1.男，0.女" name="searchGender">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchgender();">查询</button>
+    </form>
+
+    <br>
+    <table class="table table-bordered" id="empTable">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">员工信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formEmployees">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenumber">联系电话</label>
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="联系电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">性别</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shift">班次</label>
+                        <select class="form-control" id="shift" name="shift">
+                            <option value="早班">早班</option>
+                            <option value="晚班">晚班</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">家庭地址</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="家庭地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="registration">登记日期</label>
+                        <input type="text" class="form-control" id="registration" name="registration" placeholder="登记日期">
+                    </div>
+                    <div class="form-group">
+                        <label for="note">备注</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="备注">
+                    </div>
+                    <div class="form-group">
+                        <label for="number">员工号</label>
+                        <input type="text" class="form-control" id="number" name="number" placeholder="员工号">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveEmployees();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function search() {
+
+        $('#empTable').bootstrapTable("destroy");
+        loadTable();
+    }
+
+    function searchgender() {
+
+        $('#empTable').bootstrapTable("destroy");
+        loadGender();
+
+    }
+
+    function preAdd() {
+
+        $("#id").val(0);
+
+    }
+
+    function saveEmployees() {
+
+        var data = $("#formEmployees").serialize();
+
+        var id = $("#id").val();
+
+        if (id < 1) {
+
+            $.ajax({
+                url: '/webapi/employees/insert',
+                method: 'post',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+
+        } else {
+
+            $.ajax({
+                url: '/webapi/employees/update',
+                method: 'put',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+        }
+    }
+
+    function editEmployees(id) {
+
+        $('#myModal').modal('show');
+
+        $.ajax({
+            url: '/webapi/employees/get/' + id
+
+        }).done(function(rs) {
+
+            $('#id').val(rs.id);
+            $('#name').val(rs.name);
+            $('#phonenumber').val(rs.phonenumber);
+            $('#gender').val(rs.gender);
+            $('#shift').val(rs.shift);
+            $('#address').val(rs.address);
+            $('#registration').val(rs.registration);
+            $('#note').val(rs.note);
+            $('#number').val(rs.number);
+
+        })
+
+    }
+
+    function deleteEmployees(id) {
+
+        if (confirm("确定删除？!")) {
+
+            $.ajax({
+                url: '/webapi/employees/delete/' + id,
+                method: 'delete'
+
+            }).done(function() {
+
+                loadTable();
+
+            });
+
+        }
+    }
+
+    function loadGender() {
+
+        $('#empTable').bootstrapTable({
+            url: '/webapi/employees/getbypage',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    gender: $("#searchGender").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'gender',
+                title: '性别',
+                formatter: function(value, row, index) {
+
+                    if (row.gender == 1) {
+                        return "男";
+                    } else if (row.gender == 0) {
+                        return "女";
+                    }
+                }
+            }, {
+                field: 'phonenumber',
+                title: '电话'
+            }, {
+                field: 'shift',
+                title: '班次'
+            }, {
+                field: 'address',
+                title: '地址'
+            }, {
+                field: 'registration',
+                title: '登记日期'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'number',
+                title: '员工号'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editEmployees(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteEmployees(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
+                + '<span>  </span>'+'<a id="dele"><i class="fa fa-trash-o fa-2x" style="color: red" title="删除"></i> </a>'
+
+            return html;
+        }
+
+    }
+
+
+    function loadTable() {
+
+        $('#empTable').bootstrapTable({
+            url: '/webapi/employees/getbypagename',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    name: $("#searchName").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'gender',
+                title: '性别',
+                formatter: function(value, row, index) {
+
+                    if (row.gender == 1) {
+                        return "男";
+                    } else if (row.gender == 0) {
+                        return "女";
+                    }
+                }
+            }, {
+                field: 'phonenumber',
+                title: '电话'
+            }, {
+                field: 'shift',
+                title: '班次'
+            }, {
+                field: 'address',
+                title: '地址'
+            }, {
+                field: 'registration',
+                title: '登记日期'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'number',
+                title: '员工号'
+            }, {
+                field: '..',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editEmployees(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteEmployees(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
+                + '<span>  </span>'+ '<a id="dele"><i class="fa fa-trash-o fa-2x"  style="color: red" title="删除"></i> </a>'
+            return html;
+        }
+
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadTable();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>
