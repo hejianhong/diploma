@@ -22,19 +22,19 @@ public class Supplier {
 
     private String address;
 
-    private String Thecontact;//联系人
+    private String thecontact;//联系人
 
     private String phone;
 
     private String fax;
 
-    private String Email;
+    private String email;
 
     private String ein;//税号
 
-    private String Whereitis;//开户行
+    private String whereitis;//开户行
 
     private String note;
 
-    private String Dateregistration;//登记日期
+    private String dateregistration;//登记日期
 }

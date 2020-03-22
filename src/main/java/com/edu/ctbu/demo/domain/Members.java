@@ -24,11 +24,11 @@ public class Members {
 
     private Float originalamount;//原始金额
 
-    private String Lplatenumber;//车牌号码
+    private String lplatenumber;//车牌号码
 
-    private String Vehicletype;//车辆类型
+    private String vehicletype;//车辆类型
 
-    private String Vehicletypel;//车辆型号
+    private String vehicletypel;//车辆型号
 
     private String phonenumber;
 

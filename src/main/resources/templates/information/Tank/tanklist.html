@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>油罐列表页</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>油罐列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+        新增油罐
+    </button>
+
+    <h2>油罐信息表</h2>
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchNameoftank">请输入油罐名字</label>
+            <input type="text" class="form-control" id="searchNameoftank" placeholder="请输入油罐名称" name="searchNameoftank">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+    </form>
+
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchProduct">请输入油品名称</label>
+            <input type="text" class="form-control" id="searchProduct" placeholder="请输入油品名称" name="searchProduct">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchproduct();">查询</button>
+    </form>
+
+    <br>
+    <table class="table table-bordered" id="tanTable">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">油罐信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formTank">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="nameoftank">油罐名称</label>
+                        <input type="text" class="form-control" id="nameoftank" name="nameoftank" placeholder="油罐名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="product">油品名称</label>
+                        <input type="text" class="form-control" id="product" name="product" placeholder="油品名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="categories">油品种类</label>
+                        <input type="text" class="form-control" id="categories" name="categories" placeholder="油品种类">
+                    </div>
+                    <div class="form-group">
+                        <label for="inventorytonnage">库存吨数</label>
+                        <input type="text" class="form-control" id="inventorytonnage" name="inventorytonnage" placeholder="库存吨数">
+                    </div>
+                    <div class="form-group">
+                        <label for="conversionratio">转换比例</label>
+                        <input type="text" class="form-control" id="conversionratio" name="conversionratio" placeholder="转换比例">
+                    </div>
+                    <div class="form-group">
+                        <label for="inventoryfloor">库存下限</label>
+                        <input type="text" class="form-control" id="inventoryfloor" name="inventoryfloor" placeholder="库存下限">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockupseveral">库存升数</label>
+                        <input type="text" class="form-control" id="stockupseveral" name="ein" placeholder="stockupseveral">
+                    </div>
+                    <div class="form-group">
+                        <label for="retailprice">零售价格</label>
+                        <input type="text" class="form-control" id="retailprice" name="retailprice" placeholder="零售价格">
+                    </div>
+                    <div class="form-group">
+                        <label for="note">备注</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="note">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateregistration">登记日期</label>
+                        <input type="text" class="form-control" id="dateregistration" name="dateregistration" placeholder="登记日期">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveTank();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function search() {
+
+        $('#tanTable').bootstrapTable("destroy");
+        loadTable();
+    }
+
+    function searchproduct() {
+
+        $('#tanTable').bootstrapTable("destroy");
+        loadProduct();
+
+    }
+
+    function preAdd() {
+
+        $("#id").val(0);
+
+    }
+
+    function saveTank() {
+
+        var data = $("#formTank").serialize();
+
+        var id = $("#id").val();
+
+        if (id < 1) {
+
+            $.ajax({
+                url: '/webapi/tank/insert',
+                method: 'post',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+
+        } else {
+
+            $.ajax({
+                url: '/webapi/tank/update',
+                method: 'put',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+        }
+    }
+
+    function editTank(id) {
+
+        $('#myModal').modal('show');
+
+        $.ajax({
+            url: '/webapi/tank/get/' + id
+
+        }).done(function(rs) {
+
+            $('#id').val(rs.id);
+            $('#nameoftank').val(rs.nameoftank);
+            $('#product').val(rs.product);
+            $('#categories').val(rs.categories);
+            $('#inventorytonnage').val(rs.inventorytonnage);
+            $('#conversionratio').val(rs.conversionratio);
+            $('#inventoryfloor').val(rs.inventoryfloor);
+            $('#stockupseveral').val(rs.stockupseveral);
+            $('#retailprice').val(rs.retailprice);
+            $('#note').val(rs.note);
+            $('#dateregistration').val(rs.dateregistration);
+
+        })
+
+    }
+
+    function deleteTank(id) {
+
+        if (confirm("确定删除？!")) {
+
+            $.ajax({
+                url: '/webapi/tank/delete/' + id,
+                method: 'delete'
+
+            }).done(function() {
+
+                loadTable();
+
+            });
+
+        }
+    }
+
+    function loadProduct() {
+
+        $('#tanTable').bootstrapTable({
+            url: '/webapi/tank/getbypage',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    product: $("#searchProduct").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'nameoftank',
+                title: '油罐名称'
+            }, {
+                field: 'product',
+                title: '油品名称'
+            }, {
+                field: 'categories',
+                title: '油品种类'
+            }, {
+                field: 'inventorytonnage',
+                title: '库存吨数'
+            }, {
+                field: 'conversionratio',
+                title: '转换比例'
+            }, {
+                field: 'inventoryfloor',
+                title: '库存下限'
+            }, {
+                field: 'stockupseveral',
+                title: '库存升数'
+            }, {
+                field: 'retailprice',
+                title: '零售价格'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'dateregistration',
+                title: '登记日期'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editTank(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteTank(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
+                + '<span>  </span>'+'<a id="dele"><i class="fa fa-trash-o fa-2x" style="color: red" title="删除"></i> </a>'
+
+            return html;
+        }
+
+    }
+
+
+    function loadTable() {
+
+        $('#tanTable').bootstrapTable({
+            url: '/webapi/tank/getbypageproduct',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    nameoftank: $("#searchNameoftank").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'nameoftank',
+                title: '油罐名称'
+            }, {
+                field: 'product',
+                title: '油品名称'
+            }, {
+                field: 'categories',
+                title: '油品种类'
+            }, {
+                field: 'inventorytonnage',
+                title: '库存吨数'
+            }, {
+                field: 'conversionratio',
+                title: '转换比例'
+            }, {
+                field: 'inventoryfloor',
+                title: '库存下限'
+            }, {
+                field: 'stockupseveral',
+                title: '库存升数'
+            }, {
+                field: 'retailprice',
+                title: '零售价格'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'dateregistration',
+                title: '登记日期'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editTank(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteTank(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
+                + '<span>  </span>'+ '<a id="dele"><i class="fa fa-trash-o fa-2x"  style="color: red" title="删除"></i> </a>'
+            return html;
+        }
+
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadTable();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>

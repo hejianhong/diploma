@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>供货商列表页</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>供货商列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+        新增供货商
+    </button>
+
+    <h2>供货商信息表</h2>
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchName">请输入名字</label>
+            <input type="text" class="form-control" id="searchName" placeholder="请输入名称" name="searchName">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+    </form>
+
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchAddress">请输入地址</label>
+            <input type="text" class="form-control" id="searchAddress" placeholder="请输入地址" name="searchAddress">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchaddress();">查询</button>
+    </form>
+
+    <br>
+    <table class="table table-bordered" id="addTable">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">供货商信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formSupplier">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">地址</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="thecontact">联系人</label>
+                        <input type="text" class="form-control" id="thecontact" name="thecontact" placeholder="联系人">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电话</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="fax">传真号</label>
+                        <input type="text" class="form-control" id="fax" name="fax" placeholder="传真号">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">电子邮件</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="电子邮件">
+                    </div>
+                    <div class="form-group">
+                        <label for="ein">税号</label>
+                        <input type="text" class="form-control" id="ein" name="ein" placeholder="税号">
+                    </div>
+                    <div class="form-group">
+                        <label for="whereitis">开户行</label>
+                        <input type="text" class="form-control" id="whereitis" name="whereitis" placeholder="开户行">
+                    </div>
+                    <div class="form-group">
+                        <label for="note">备注</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="note">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateregistration">登记日期</label>
+                        <input type="text" class="form-control" id="dateregistration" name="dateregistration" placeholder="登记日期">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveSupplier();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function search() {
+
+        $('#addTable').bootstrapTable("destroy");
+        loadTable();
+    }
+
+    function searchaddress() {
+
+        $('#addTable').bootstrapTable("destroy");
+        loadAddress();
+
+    }
+
+    function preAdd() {
+
+        $("#id").val(0);
+
+    }
+
+    function saveSupplier() {
+
+        var data = $("#formSupplier").serialize();
+
+        var id = $("#id").val();
+
+        if (id < 1) {
+
+            $.ajax({
+                url: '/webapi/supplier/insert',
+                method: 'post',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+
+        } else {
+
+            $.ajax({
+                url: '/webapi/supplier/update',
+                method: 'put',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+        }
+    }
+
+    function editSupplier(id) {
+
+        $('#myModal').modal('show');
+
+        $.ajax({
+            url: '/webapi/supplier/get/' + id
+
+        }).done(function(rs) {
+
+            $('#id').val(rs.id);
+            $('#name').val(rs.name);
+            $('#address').val(rs.address);
+            $('#thecontact').val(rs.thecontact);
+            $('#phone').val(rs.phone);
+            $('#fax').val(rs.fax);
+            $('#email').val(rs.email);
+            $('#ein').val(rs.ein);
+            $('#whereitis').val(rs.whereitis);
+            $('#note').val(rs.note);
+            $('#dateregistration').val(rs.dateregistration);
+
+        })
+
+    }
+
+    function deleteSupplier(id) {
+
+        if (confirm("确定删除？!")) {
+
+            $.ajax({
+                url: '/webapi/supplier/delete/' + id,
+                method: 'delete'
+
+            }).done(function() {
+
+                loadTable();
+
+            });
+
+        }
+    }
+
+    function loadAddress() {
+
+        $('#addTable').bootstrapTable({
+            url: '/webapi/supplier/getbypage',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    address: $("#searchAddress").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'address',
+                title: '地址'
+            }, {
+                field: 'thecontact',
+                title: '联系人'
+            }, {
+                field: 'phone',
+                title: '电话'
+            }, {
+                field: 'fax',
+                title: '传真号'
+            }, {
+                field: 'email',
+                title: '电子邮件'
+            }, {
+                field: 'ein',
+                title: '税号'
+            }, {
+                field: 'whereitis',
+                title: '开户行'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'dateregistration',
+                title: '登记日期'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editSupplier(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteSupplier(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
+                + '<span>  </span>'+'<a id="dele"><i class="fa fa-trash-o fa-2x" style="color: red" title="删除"></i> </a>'
+
+            return html;
+        }
+
+    }
+
+
+    function loadTable() {
+
+        $('#addTable').bootstrapTable({
+            url: '/webapi/supplier/getbypageaddress',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    name: $("#searchName").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'address',
+                title: '地址'
+            }, {
+                field: 'thecontact',
+                title: '联系人'
+            }, {
+                field: 'phone',
+                title: '电话'
+            }, {
+                field: 'fax',
+                title: '传真号'
+            }, {
+                field: 'email',
+                title: '电子邮件'
+            }, {
+                field: 'ein',
+                title: '税号'
+            }, {
+                field: 'whereitis',
+                title: '开户行'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'dateregistration',
+                title: '登记日期'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editSupplier(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteSupplier(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
+                + '<span>  </span>'+ '<a id="dele"><i class="fa fa-trash-o fa-2x"  style="color: red" title="删除"></i> </a>'
+            return html;
+        }
+
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadTable();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>

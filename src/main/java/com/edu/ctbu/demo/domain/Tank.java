@@ -23,17 +23,17 @@ public class Tank {
 
     private String categories;//油品种类
 
-    private Float Inventorytonnage;//库存吨数
+    private Float inventorytonnage;//库存吨数
 
-    private String Conversionratio;//转换比例
+    private String conversionratio;//转换比例
 
-    private Float Inventoryfloor;//库存下限
+    private Float inventoryfloor;//库存下限
 
-    private Float Stockupseveral;//库存升数
+    private Float stockupseveral;//库存升数
 
     private Float retailprice;//零售价格
 
     private String note;//
 
-    private String Dateregistration;//登记日期
+    private String dateregistration;//登记日期
 }
