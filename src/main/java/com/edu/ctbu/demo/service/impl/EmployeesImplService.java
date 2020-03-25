@@ -36,7 +36,7 @@ public class EmployeesImplService  implements EmployeesService {
 
     public List<Employees> findByNameAndPassword(String name,String password){
 
-        return employeesRepository.findByNameAndPassword(name, password);
+        return employeesRepository.findByNameAndPassword(name,password);
     }
 
     public Employees insert(Employees employees){

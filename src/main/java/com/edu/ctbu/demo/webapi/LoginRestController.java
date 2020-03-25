@@ -19,14 +19,16 @@ public class LoginRestController {
     @Autowired
     EmployeesService employeesService;
 
-    @GetMapping("/user")
-    public int user(HttpServletRequest httprequest , String name , String password){
+    @GetMapping("/login")
+    public int user(HttpServletRequest httprequest , String username , String password){
 
-        List<Employees> employees = employeesService.findByNameAndPassword(name,password);
+        List<Employees> employees = employeesService.findByNameAndPassword(username,password);
+
+
 
         //判断用户名密码是否存在
 
-        if (employees.size() > 0){
+        if (employees.size()> 0){
 
             HttpSession session = httprequest.getSession();
 
@@ -35,9 +37,11 @@ public class LoginRestController {
             session.setAttribute("user",employees.get(0));
 
             return 1;
+
         }else {
 
             return -1;
         }
+
     }
 }
