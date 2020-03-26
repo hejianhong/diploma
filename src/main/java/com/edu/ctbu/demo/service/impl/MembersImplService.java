@@ -40,6 +40,11 @@ public class MembersImplService implements MembersService {
         return membersRepository.findByMembername(membername);
     }
 
+    public List<Members> findByCardnumber(String cardnumber){
+
+        return membersRepository.findByCardnumber(cardnumber);
+    }
+
     public Members insert(Members members){
 
         return membersRepository.save(members);

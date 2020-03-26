@@ -8,4 +8,7 @@ import java.util.List;
 public interface MembersRepository extends JpaRepository<Members,Long> {
 
     public List<Members> findByMembername(String membername);
+
+    public List<Members> findByCardnumber(String cardnumber);
+
 }

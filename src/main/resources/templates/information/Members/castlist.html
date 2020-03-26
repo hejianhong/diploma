@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>消费列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <!-- Button trigger modal -->
+    <!--    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">-->
+    <!--        新增员工-->
+    <!--    </button>-->
+
+    <h2>消费信息表</h2>
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchMembername">请输入名字</label>
+            <input type="text" class="form-control" id="searchMembername" placeholder="请输入名称" name="searchMembername">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+    </form>
+
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchCardnumber">请输入卡号</label>
+            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
+    </form>
+
+    <br>
+    <table class="table table-bordered" id="casTable">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">消费信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formCast">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="membername">姓名</label>
+                        <input type="text" class="form-control" id="membername" name="membername" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardnumber">卡号</label>
+                        <input type="text" class="form-control" id="cardnumber" name="cardnumber" placeholder="卡号">
+                    </div>
+                    <div class="form-group">
+                        <label for="kaneamount">卡内金额</label>
+                        <input type="text" class="form-control" id="kaneamount" name="kaneamount" placeholder="卡内金额">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="topupamount">充值金额</label>
+                        <input type="text" class="form-control" id="topupamount" name="topupamount" placeholder="充值金额">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="topupdate">充值日期</label>
+                        <input type="text" class="form-control" id="topupdate" name="topupdate" placeholder="家庭地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="product">油品名称</label>
+                        <input type="text" class="form-control" id="product" name="product" placeholder="油品名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="numberof">数量</label>
+                        <input type="text" class="form-control" id="numberof" name="numberof" placeholder="数量">
+                    </div>
+                    <div class="form-group">
+                        <label for="unitprice">单价</label>
+                        <input type="text" class="form-control" id="unitprice" name="unitprice" placeholder="单价">
+                    </div>
+                    <div class="form-group">
+                        <label for="receivableamount">应收金额</label>
+                        <input type="text" class="form-control" id="receivableamount" name="receivableamount" placeholder="应收金额">
+                    </div>
+                    <div class="form-group">
+                        <label for="paidin">实收金额</label>
+                        <input type="text" class="form-control" id="paidin" name="paidin" placeholder="实收金额">
+                    </div>
+                    <div class="form-group">
+                        <label for="termsofpayment">付款方式</label>
+                        <input type="text" class="form-control" id="termsofpayment" name="termsofpayment" placeholder="付款方式">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveCast();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+    function search() {
+
+        $('#casTable').bootstrapTable("destroy");
+        loadTable();
+    }
+
+    function searchcardnumber() {
+
+        $('#casTable').bootstrapTable("destroy");
+        loadCardnumber();
+
+    }
+
+    function preAdd() {
+
+        $("#id").val(0);
+
+    }
+
+    function saveCast() {
+
+        var data = $("#formCast").serialize();
+
+        var id = $("#id").val();
+
+        if (id < 1) {
+
+            $.ajax({
+                url: '/webapi/members/insert',
+                method: 'post',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+
+        } else {
+
+            $.ajax({
+                url: '/webapi/members/update',
+                method: 'put',
+                data: data
+
+            }).done(function() {
+
+                loadTable();
+
+                $('#myModal').modal('hide')
+
+            })
+        }
+    }
+
+    function editCast(id) {
+
+        $('#myModal').modal('show');
+
+        $.ajax({
+            url: '/webapi/members/get/' + id
+
+        }).done(function(rs) {
+
+            $('#id').val(rs.id);
+            $('#membername').val(rs.membername);
+            $('#cardnumber').val(rs.cardnumber);
+            $('#kaneamount').val(rs.kaneamount);
+            $('#topupamount').val(rs.topupamount);
+            $('#topupdate').val(rs.topupdate);
+            $('#product').val(rs.product);
+            $('#numberof').val(rs.numberof);
+            $('#unitprice').val(rs.unitprice);
+            $('#receivableamount').val(rs.receivableamount);
+            $('#paidin').val(rs.paidin);
+            $('#termsofpayment').val(rs.termsofpayment);
+
+        })
+
+    }
+
+    function deleteCast(id) {
+
+        if (confirm("确定删除？!")) {
+
+            $.ajax({
+                url: '/webapi/members/delete/' + id,
+                method: 'delete'
+
+            }).done(function() {
+
+                loadTable();
+
+            });
+
+        }
+    }
+
+    function loadCardnumber() {
+
+        $('#casTable').bootstrapTable({
+            url: '/webapi/members/getbypagecard',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    gender: $("#searchCardnumber").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'membername',
+                title: '姓名'
+            }, {
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'kaneamount',
+                title: '卡内金额',
+                formatter: function(value,row,index){
+
+                    var mon = row.kaneamount + row.topupamount;
+
+                    return mon;
+                }
+            }, {
+                field: 'topupamount',
+                title: '充值金额'
+            }, {
+                field: 'topupdate',
+                title: '充值日期'
+            }, {
+                field: 'product',
+                title: '油品名称'
+            }, {
+                field: 'numberof',
+                title: '数量'
+            }, {
+                field: 'unitprice',
+                title: '单价'
+            }, {
+                field: 'receivableamount',
+                title: '应收金额',
+                formatter: function(value,row,index){
+
+                    var tol = row.numberof.parseFloat() * row.unitprice.parseFloat();
+
+                    return tol;
+                }
+            }, {
+                field: 'paidin',
+                title: '实收金额',
+                formatter: function(value,row,index){
+
+                    var inf = row.receivableamount;
+
+                    return inf;
+                }
+            }, {
+                field: 'termsofpayment',
+                title: '付款方式'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editCast(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteCast(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
+                + '<span>  </span>'+'<a id="dele"><i class="fa fa-trash-o fa-2x" style="color: red" title="删除"></i> </a>'
+
+            return html;
+        }
+
+    }
+
+
+    function loadTable() {
+
+        $('#casTable').bootstrapTable({
+            url: '/webapi/members/getbypagemembername',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    name: $("#searchMembername").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'membername',
+                title: '姓名'
+            }, {
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'kaneamount',
+                title: '卡内金额',
+                formatter: function(value,row,index){
+
+                    var mon = row.kaneamount + row.topupamount;
+
+                    return mon;
+                }
+            }, {
+                field: 'topupamount',
+                title: '充值金额'
+            }, {
+                field: 'topupdate',
+                title: '充值日期'
+            }, {
+                field: 'product',
+                title: '油品名称'
+            }, {
+                field: 'numberof',
+                title: '数量'
+            }, {
+                field: 'unitprice',
+                title: '单价'
+            }, {
+                field: 'receivableamount',
+                title: '应收金额',
+                formatter: function(value,row,index){
+
+                    var tol = parseFloat(row.numberof) * parseFloat(row.unitprice);
+
+                    return tol;
+                }
+            }, {
+                field: 'paidin',
+                title: '实收金额',
+                formatter: function(value,row,index){
+
+                    var inf = row.receivableamount;
+
+                    return inf;
+                }
+            }, {
+                field: 'termsofpayment',
+                title: '付款方式'
+            }, {
+                field: '...',
+                title: '操作',
+                formatter: addBtton,
+                events: {
+                    'click #edit': function (event, value, row, index){
+                        editCast(row.id);
+                    },
+                    'click #dele': function(event, value, row, index){
+                        deleteCast(row.id);
+                    }
+                }
+            }]
+        });
+
+        function addBtton(){
+
+            var html =
+                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
+                + '<span>  </span>'+ '<a id="dele"><i class="fa fa-trash-o fa-2x"  style="color: red" title="删除"></i> </a>'
+            return html;
+        }
+
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadTable();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>

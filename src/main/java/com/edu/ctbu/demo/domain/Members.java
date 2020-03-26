@@ -40,11 +40,11 @@ public class Members {
 
     private String note;
 
-    private Float Kaneamount;//卡内金额
+    private Float kaneamount;//卡内金额
 
-    private Float Topupamount;//充值金额
+    private Float topupamount;//充值金额
 
-    private String Topupdate;//充值日期
+    private String topupdate;//充值日期
 
     private String product;//油品名称
 
@@ -54,8 +54,8 @@ public class Members {
 
     private Float receivableamount;//应收金额
 
-    private Float Paidin;//实收金额
+    private Float paidin;//实收金额
 
-    private String Termsofpayment;//付款方式
+    private String termsofpayment;//付款方式
 
 }

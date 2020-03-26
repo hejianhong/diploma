@@ -21,6 +21,8 @@ public interface MembersService {
 
     public List<Members> findByMembername(String membername);
 
+    public List<Members> findByCardnumber(String cardnumber);
+
     Members insert(Members members);
 
     Members update(Members members);

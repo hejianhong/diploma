@@ -71,6 +71,46 @@ public class MembersRestController {
         return pageUtils;
     }
 
+    @GetMapping("/getbypagecard")
+    public PageUtils getByPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               @RequestParam(value = "membername", defaultValue = "") String membername,
+                               @RequestParam(value = "gender", defaultValue = "") Integer gender,
+                               @RequestParam(value = "cardnumber", defaultValue = "") Long cardnumber) {
+
+        //按照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        Page<Members> membersPage;
+
+        if (StringUtils.isEmpty(gender)) {
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            membersPage = membersService.findAll(pageable);
+
+        } else {
+
+            Members members = new Members();
+
+            members.setGender(Math.toIntExact(cardnumber));
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+
+                    .withMatcher("cardnumber", ExampleMatcher.GenericPropertyMatchers.contains());
+
+            Example<Members> example = Example.of(members, matcher);
+
+            membersPage = membersService.findAll(example, pageable);
+        }
+
+        PageUtils pageUtils = new PageUtils(membersPage.getContent(), membersPage.getTotalElements());
+
+        return pageUtils;
+    }
+
 
     @GetMapping("/getbypagemembername")
     public PageUtils getByPageGender(@RequestParam(value = "page", defaultValue = "0") Integer page,
