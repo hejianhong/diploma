@@ -20,6 +20,8 @@ public interface EmployeesService {
 
     public List<Employees> findByNameAndPassword(String name,String password);
 
+    public Employees finByNumber(Long number);
+
     Employees insert(Employees employees);
 
     Employees update(Employees employees);
@@ -29,4 +31,6 @@ public interface EmployeesService {
     void delete(Long id);
 
     Employees getById(Long id);
+
+//    Employees getByNumber(String number);
 }

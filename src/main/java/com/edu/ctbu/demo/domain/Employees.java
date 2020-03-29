@@ -32,7 +32,7 @@ public class Employees {
 
     private String note;
 
-    private Integer number;
+    private Long number;
 
     private String password;
 

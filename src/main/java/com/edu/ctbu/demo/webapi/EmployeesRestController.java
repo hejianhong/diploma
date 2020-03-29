@@ -71,11 +71,51 @@ public class EmployeesRestController {
     }
 
 
-    @GetMapping("/getbypagename")
+    @GetMapping("/getbypagenumber")
     public PageUtils getByPageGender(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                @RequestParam(value = "size", defaultValue = "10") Integer size,
                                @RequestParam(value = "name", defaultValue = "") String name,
-                               @RequestParam(value = "gender", defaultValue = "") Integer gender){
+                               @RequestParam(value = "gender", defaultValue = "") Integer gender,
+                               @RequestParam(value = "number", defaultValue = "") String number){
+
+        //按照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+
+        Page<Employees> employeesPage;
+
+        if (StringUtils.isEmpty(number)){
+
+            Pageable pageable = PageRequest.of(page,size,sort);
+
+            employeesPage = employeesService.findAll(pageable);
+
+        }else {
+
+            Employees employees = new Employees();
+
+            employees.setName(number);
+
+            Pageable pageable = PageRequest.of(page,size,sort);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+
+                    .withMatcher("number",ExampleMatcher.GenericPropertyMatchers.contains());
+
+            Example<Employees> example = Example.of(employees,matcher);
+
+            employeesPage = employeesService.findAll(example,pageable);
+        }
+
+        PageUtils pageUtils = new PageUtils(employeesPage.getContent(),employeesPage.getTotalElements());
+
+        return pageUtils;
+    }
+
+    @GetMapping("/getbypagename")
+    public PageUtils getByPageGender(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                     @RequestParam(value = "name", defaultValue = "") String name,
+                                     @RequestParam(value = "gender", defaultValue = "") Integer gender){
 
         //按照id排序
         Sort sort = Sort.by(Sort.Direction.DESC,"id");
@@ -116,6 +156,15 @@ public class EmployeesRestController {
         Employees employees=employeesService.getById(id);
 
         employees.setPassword("");
+
+        return employees;
+    }
+
+    @GetMapping("getby/{number}")
+    public Employees getby(@PathVariable Long number){
+
+        Employees employees = employeesService.finByNumber(number);
+
 
         return employees;
     }

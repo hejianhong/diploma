@@ -35,4 +35,18 @@ public class EmployessController {
 
         return "/information/Employees/employeeslist";
     }
+
+    @RequestMapping("/information/qiandao/qiandao")
+    public String qd(){
+
+        return "information/qiandao/qiandao";
+    }
+
+    @RequestMapping("/information/qiandao/finishqd")
+    public String finishqd(){
+
+        return "information/qiandao/finishqd";
+    }
+
+
 }

@@ -1,0 +1,168 @@
+<html>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>签到</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/supersized.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+</head>
+
+<body id="bd" style="background-image: url(/img/1.jpg);">
+
+<div class="page-container">
+    <h1>签到</h1>
+    <form action="Modest/index.html" method="post">
+        <input type="text" id="usernumber" name="usernumber" class="usernumber" placeholder="请输入员工号完成签到！">
+        <button type="button" class="submit_button" onclick="subqd();">签到</button>
+
+    </form>
+
+    <table class="table table-bordered" id="qdTable">
+
+    </table>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">员工信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formEmployees">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenumber">联系电话</label>
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="联系电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">性别</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shift">班次</label>
+                        <select class="form-control" id="shift" name="shift">
+                            <option value="早班">早班</option>
+                            <option value="晚班">晚班</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">家庭地址</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="家庭地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="registration">登记日期</label>
+                        <input type="text" class="form-control" id="registration" name="registration" placeholder="登记日期">
+                    </div>
+                    <div class="form-group">
+                        <label for="note">备注</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="备注">
+                    </div>
+                    <div class="form-group">
+                        <label for="number">员工号</label>
+                        <input type="text" class="form-control" id="number" name="number" placeholder="员工号">
+                    </div>
+                </form>
+
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+</body>
+<div style="text-align:center;">
+
+</div>
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+
+<script type="text/javascript">
+    function subqd(nu) {
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth();
+        var date = now.getDate();
+        var hour = now.getHours();//得到小时
+        var minu = now.getMinutes();//得到分钟
+        var sec = now.getSeconds();//得到秒
+
+        var nowtime = year +"-"+month+"-"+date+"-"+hour+"-"+minu+"-"+sec;
+
+        var succ = "签到成功" + "("+ nowtime + ")";
+
+
+        var a = document.getElementById("usernumber");
+
+        nu = a.value;
+
+        alert("工号：" + nu + "签到成功！");
+
+        console.log(nu);
+
+
+        $.ajax({
+
+            url: '/webapi/employees/getby/' + nu
+        }).done(function(rs) {
+
+            $('#id').val(rs.id);
+            $('#name').val(rs.name);
+            $('#phonenumber').val(rs.phonenumber);
+            $('#gender').val(rs.gender);
+            $('#shift').val(rs.shift);
+            $('#address').val(rs.address);
+            $('#registration').val(rs.registration);
+            $('#note').val(succ);
+            $('#number').val(rs.number);
+
+            var data = $("#formEmployees").serialize();
+
+            $.ajax({
+                url:'/webapi/employees/update',
+                method:'put',
+                data:data
+            }).done({
+
+        })
+
+        })
+
+    }
+</script>
+</html>

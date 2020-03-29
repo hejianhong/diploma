@@ -39,6 +39,11 @@ public class EmployeesImplService  implements EmployeesService {
         return employeesRepository.findByNameAndPassword(name,password);
     }
 
+    public Employees finByNumber(Long number){
+
+        return employeesRepository.findByNumber(number);
+    }
+
     public Employees insert(Employees employees){
 
         return employeesRepository.save(employees);
@@ -67,4 +72,9 @@ public class EmployeesImplService  implements EmployeesService {
 
         return employeesRepository.findById(id).orElse(null);
     }
+
+//    public Employees getByNumber(String number){
+//
+//        return employeesRepository.findByNumber(number);
+//    }
 }

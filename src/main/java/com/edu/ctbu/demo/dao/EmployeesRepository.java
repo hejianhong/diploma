@@ -8,4 +8,7 @@ import java.util.List;
 public interface EmployeesRepository extends JpaRepository<Employees,Long> {
 
     public List<Employees> findByNameAndPassword(String name,String password);
+
+    public Employees findByNumber(Long number);
+
 }

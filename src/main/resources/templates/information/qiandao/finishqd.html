@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>签到结果</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>签到成功列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+
+
+    <h2>签到信息表</h2>
+    <br>
+
+
+    <br>
+
+
+    <br>
+    <table class="table table-bordered" id="empTable">
+
+    </table>
+</div>
+
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+    function loadTable() {
+
+        $('#empTable').bootstrapTable({
+            url: '/webapi/employees/getbypagename',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'number',
+                title: '员工号'
+            }]
+        });
+
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadTable();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>
