@@ -150,6 +150,45 @@ public class EmployeesRestController {
         return pageUtils;
     }
 
+    @GetMapping("/getbypageshift")
+    public PageUtils getByPageShift(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                     @RequestParam(value = "shift", defaultValue = "") String shift,
+                                     @RequestParam(value = "gender", defaultValue = "") Integer gender){
+
+        //按照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+
+        Page<Employees> employeesPage;
+
+        if (StringUtils.isEmpty(shift)){
+
+            Pageable pageable = PageRequest.of(page,size,sort);
+
+            employeesPage = employeesService.findAll(pageable);
+
+        }else {
+
+            Employees employees = new Employees();
+
+            employees.setShift(shift);
+
+            Pageable pageable = PageRequest.of(page,size,sort);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+
+                    .withMatcher("shift",ExampleMatcher.GenericPropertyMatchers.contains());
+
+            Example<Employees> example = Example.of(employees,matcher);
+
+            employeesPage = employeesService.findAll(example,pageable);
+        }
+
+        PageUtils pageUtils = new PageUtils(employeesPage.getContent(),employeesPage.getTotalElements());
+
+        return pageUtils;
+    }
+
     @GetMapping("/get/{id}")
     public Employees get(@PathVariable Long id){
 

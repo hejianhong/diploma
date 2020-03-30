@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>值班列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div id="zhiban">
+
+
+
+</div>
+
+<div class="container-fluid">
+
+
+
+    <h2>值班信息表</h2>
+    <br>
+
+
+    <div>
+        <button type="button" class="btn btn-default" id="zao" onclick="searchshift();">早班</button>
+        <button type="button" class="btn btn-default" id="wan" onclick="searchshift();">晚班</button>
+        <button type="button" class="btn btn-default" id="ye" onclick="searchshift();">夜班</button>
+    </div>
+
+    <br>
+    <table class="table table-bordered" id="shiTable">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">值班信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formShift">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">性别</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="shift">班次</label>
+                        <select class="form-control" id="shift" name="shift">
+                            <option value="早班">早班</option>
+                            <option value="晚班">晚班</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="note">备注</label>
+                        <input type="text" class="form-control" id="note" name="note" placeholder="备注">
+                    </div>
+                    <div class="form-group">
+                        <label for="number">员工号</label>
+                        <input type="text" class="form-control" id="number" name="number" placeholder="员工号">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveEmployees();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+    function searchshift() {
+
+        $('#shiTable').bootstrapTable("destroy");
+        loadByShift();
+
+    }
+
+
+
+    function loadByShift() {
+
+        $('#shiTable').bootstrapTable({
+            url: '/webapi/employees/getbypageshift',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    shift: $("#searchshift").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'name',
+                title: '姓名'
+            }, {
+                field: 'gender',
+                title: '性别',
+                formatter: function(value, row, index) {
+
+                    if (row.gender == 1) {
+                        return "男";
+                    } else if (row.gender == 0) {
+                        return "女";
+                    }
+                }
+            }, {
+                field: 'shift',
+                title: '班次'
+            }, {
+                field: 'note',
+                title: '备注'
+            }, {
+                field: 'number',
+                title: '员工号'
+            }]
+        });
+
+    } //end of loadTable
+
+    $(function() {
+
+        loadByShift();
+
+    });
+
+</script>
+
+
+
+</body>
+</html>

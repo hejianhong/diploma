@@ -22,6 +22,8 @@ public interface EmployeesService {
 
     public Employees finByNumber(Long number);
 
+    public Employees findByShift(String shift);
+
     Employees insert(Employees employees);
 
     Employees update(Employees employees);

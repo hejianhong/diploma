@@ -23,6 +23,8 @@ public interface MembersService {
 
     public List<Members> findByCardnumber(String cardnumber);
 
+    public List<Members> findByIsvip(Integer isvip);
+
     Members insert(Members members);
 
     Members update(Members members);

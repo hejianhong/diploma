@@ -112,6 +112,45 @@ public class MembersRestController {
     }
 
 
+    @GetMapping("/getbypageisvip")
+    public PageUtils getByPageIsvip(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                     @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                     @RequestParam(value = "membername", defaultValue = "") String membername,
+                                     @RequestParam(value = "isvip", defaultValue = "") Integer isvip) {
+
+        //按照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        Page<Members> membersPage;
+
+        if (StringUtils.isEmpty(isvip)) {
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            membersPage = membersService.findAll(pageable);
+
+        } else {
+
+            Members members = new Members();
+
+            members.setIsvip(isvip);
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+
+                    .withMatcher("isvip", ExampleMatcher.GenericPropertyMatchers.contains());
+
+            Example<Members> example = Example.of(members, matcher);
+
+            membersPage = membersService.findAll(example, pageable);
+        }
+
+        PageUtils pageUtils = new PageUtils(membersPage.getContent(), membersPage.getTotalElements());
+
+        return pageUtils;
+    }
+
     @GetMapping("/getbypagemembername")
     public PageUtils getByPageGender(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,

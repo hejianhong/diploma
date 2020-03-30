@@ -44,6 +44,12 @@ public class EmployeesImplService  implements EmployeesService {
         return employeesRepository.findByNumber(number);
     }
 
+    public Employees findByShift(String shift){
+
+        return employeesRepository.findByShift(shift);
+    }
+
+
     public Employees insert(Employees employees){
 
         return employeesRepository.save(employees);

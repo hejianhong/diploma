@@ -11,4 +11,7 @@ public interface MembersRepository extends JpaRepository<Members,Long> {
 
     public List<Members> findByCardnumber(String cardnumber);
 
+    public List<Members> findByIsvip(Integer isvip);
+
+
 }

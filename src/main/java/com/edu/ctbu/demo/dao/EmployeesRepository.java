@@ -11,4 +11,6 @@ public interface EmployeesRepository extends JpaRepository<Employees,Long> {
 
     public Employees findByNumber(Long number);
 
+    public Employees findByShift(String shift);
+
 }

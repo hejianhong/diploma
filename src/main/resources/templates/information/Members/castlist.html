@@ -122,7 +122,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="saveCast();">保存</button>
+                <button type="button" class="btn btn-primary" onclick="saveCast();">确认</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -286,7 +286,11 @@
                 title: '油品名称'
             }, {
                 field: 'numberof',
-                title: '数量'
+                title: '数量',
+                formatter:function () {
+
+
+                }
             }, {
                 field: 'unitprice',
                 title: '单价'

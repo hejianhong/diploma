@@ -58,4 +58,7 @@ public class Members {
 
     private String termsofpayment;//付款方式
 
+    private Integer isvip;
+
+
 }

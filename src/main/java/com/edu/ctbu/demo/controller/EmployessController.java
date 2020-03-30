@@ -48,5 +48,10 @@ public class EmployessController {
         return "information/qiandao/finishqd";
     }
 
+    @RequestMapping("/information/Employees/shift")
+    public String shift(){
+
+        return "information/Employees/shift";
+    }
 
 }

@@ -45,6 +45,12 @@ public class MembersImplService implements MembersService {
         return membersRepository.findByCardnumber(cardnumber);
     }
 
+    public List<Members> findByIsvip(Integer isvip){
+
+        return membersRepository.findByIsvip(isvip);
+    }
+
+
     public Members insert(Members members){
 
         return membersRepository.save(members);
