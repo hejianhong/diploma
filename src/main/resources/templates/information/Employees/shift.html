@@ -38,11 +38,18 @@
     <br>
 
 
-    <div>
-        <button type="button" class="btn btn-default" id="zao" onclick="searchshift();">早班</button>
-        <button type="button" class="btn btn-default" id="wan" onclick="searchshift();">晚班</button>
-        <button type="button" class="btn btn-default" id="ye" onclick="searchshift();">夜班</button>
-    </div>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchShift">请输入班次</label>
+            <input type="text" class="form-control" id="searchShift" placeholder="请输入班次" name="searchShift">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchshift();">确认</button>
+    </form>
+
+    <br>
+
+    <br>
 
     <br>
     <table class="table table-bordered" id="shiTable">
@@ -110,8 +117,8 @@
     function searchshift() {
 
         $('#shiTable').bootstrapTable("destroy");
-        loadByShift();
 
+        loadByShift();
     }
 
 
@@ -133,7 +140,7 @@
                     page: params.offset / params.limit,
                     sort: "id",
                     direct: "desc",
-                    shift: $("#searchshift").val(),
+                    shift: $("#searchShift").val(),
                 };
 
                 return paraObj;
@@ -169,6 +176,8 @@
 
     } //end of loadTable
 
+
+
     $(function() {
 
         loadByShift();
@@ -176,6 +185,8 @@
     });
 
 </script>
+
+
 
 
 

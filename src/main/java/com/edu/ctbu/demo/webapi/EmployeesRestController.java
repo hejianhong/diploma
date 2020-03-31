@@ -154,6 +154,7 @@ public class EmployeesRestController {
     public PageUtils getByPageShift(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
                                      @RequestParam(value = "shift", defaultValue = "") String shift,
+                                    @RequestParam(value = "name", defaultValue = "") String name,
                                      @RequestParam(value = "gender", defaultValue = "") Integer gender){
 
         //按照id排序

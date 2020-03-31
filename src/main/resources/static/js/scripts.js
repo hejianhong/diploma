@@ -1,6 +1,9 @@
 
 var code ; //在全局定义验证码
 
+
+
+
 function createCode(){
     code = "";
     var codeLength = 4;//验证码的长度
@@ -16,18 +19,24 @@ function createCode(){
 //校验验证码
 function validate(){
 
-    var inputCode = document.getElementById("Captcha").value.toUpperCase();//取得输入的验证码并转化为大写
+
+    var inp = $(".Captcha");
+
+    var inputCode = inp.val();
+
     if(inputCode.length <= 0) { //若输入的验证码长度为0
         alert("请输入验证码！"); //则弹出请输入验证码
 
+        return false;
     }else if(inputCode != code ) { //若输入的验证码与产生的验证码不一致时
         alert("验证码输入错误！"); //则弹出验证码输入错误
         createCode();//刷新验证码
-        document.getElementById("Captcha").innerText = "";//清空文本框
+        $(".Captcha").innerText = "";//清空文本框
         return false;
     }else { //输入正确时
         alert("验证码正确,正在跳转...");
 
+        login();
     }
 
 }
@@ -38,8 +47,6 @@ function login() {
     var name = $(".username").val();
 
     var password = $(".password").val();
-
-
 
 
     $.ajax({
@@ -64,9 +71,8 @@ function login() {
 
 function loginlast() {
 
-    // validate();
+    validate();
 
-    login();
 
 }
 
