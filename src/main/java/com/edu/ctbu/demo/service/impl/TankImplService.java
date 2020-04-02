@@ -2,8 +2,6 @@ package com.edu.ctbu.demo.service.impl;
 
 
 import com.edu.ctbu.demo.dao.TankRepository;
-import com.edu.ctbu.demo.domain.Employees;
-import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Tank;
 import com.edu.ctbu.demo.service.TankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +34,14 @@ public class TankImplService implements TankService {
         return tankRepository.findAll(tank,pageable);
     }
 
-    public List<Tank> findByNameoftank(String nameoftank){
+    public Tank findByNameoftank(String nameoftank){
 
         return tankRepository.findByNameoftank(nameoftank);
+    }
+
+    public List<Tank> findByProduct(String product){
+
+        return tankRepository.findByProduct(product);
     }
 
     public Tank insert(Tank tank){

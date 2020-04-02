@@ -19,10 +19,6 @@ public interface MembersService {
 
     public Page<Members> findAll(Example<Members> members, Pageable pageable);
 
-    public List<Members> findByMembername(String membername);
-
-    public List<Members> findByCardnumber(String cardnumber);
-
     public List<Members> findByIsvip(Integer isvip);
 
     Members insert(Members members);

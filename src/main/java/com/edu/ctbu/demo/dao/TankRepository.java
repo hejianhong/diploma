@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface TankRepository extends JpaRepository<Tank,Long> {
 
-    public List<Tank> findByNameoftank(String nameoftank);
+    public Tank findByNameoftank(String nameoftank);
+
+    public List<Tank> findByProduct(String product);
+
 }

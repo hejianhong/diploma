@@ -120,6 +120,15 @@ public class TankRestController {
         return tank;
     }
 
+    @GetMapping("/getby/{nameoftank}")
+    public Tank getnameoftank(@PathVariable String nameoftank){
+
+        Tank tank = tankService.findByNameoftank(nameoftank);
+
+        return tank;
+
+    }
+
     @PostMapping("/insert")
     public Tank insert(Tank tank){
 

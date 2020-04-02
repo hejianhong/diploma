@@ -3,7 +3,6 @@ var code ; //在全局定义验证码
 
 
 
-
 function createCode(){
     code = "";
     var codeLength = 4;//验证码的长度
@@ -69,14 +68,13 @@ function login() {
 
 }
 
+
 function loginlast() {
 
     validate();
 
 
 }
-
-
 
 
 

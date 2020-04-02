@@ -35,15 +35,7 @@ public class MembersImplService implements MembersService {
         return membersRepository.findAll(members,pageable);
     }
 
-    public List<Members> findByMembername(String membername){
 
-        return membersRepository.findByMembername(membername);
-    }
-
-    public List<Members> findByCardnumber(String cardnumber){
-
-        return membersRepository.findByCardnumber(cardnumber);
-    }
 
     public List<Members> findByIsvip(Integer isvip){
 

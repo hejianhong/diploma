@@ -26,10 +26,7 @@
 
 <div class="container-fluid">
 
-    <!-- Button trigger modal -->
-    <!--    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">-->
-    <!--        新增员工-->
-    <!--    </button>-->
+
 
     <h2>消费信息表</h2>
     <br>
@@ -93,6 +90,10 @@
                     <div class="form-group">
                         <label for="topupdate">充值日期</label>
                         <input type="text" class="form-control" id="topupdate" name="topupdate" placeholder="家庭地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameoftank">油罐名称</label>
+                        <input type="text" class="form-control" id="nameoftank" name="nameoftank" placeholder="油罐名称">
                     </div>
                     <div class="form-group">
                         <label for="product">油品名称</label>
@@ -160,6 +161,8 @@
 
         var id = $("#id").val();
 
+
+
         if (id < 1) {
 
             $.ajax({
@@ -186,10 +189,12 @@
 
                 loadTable();
 
-                $('#myModal').modal('hide')
+                $('#myModal').modal('hide');
 
             })
+
         }
+
     }
 
     function editCast(id) {
@@ -207,6 +212,7 @@
             $('#kaneamount').val(rs.kaneamount);
             $('#topupamount').val(rs.topupamount);
             $('#topupdate').val(rs.topupdate);
+            $('#nameoftank').val(rs.nameoftank);
             $('#product').val(rs.product);
             $('#numberof').val(rs.numberof);
             $('#unitprice').val(rs.unitprice);
@@ -281,19 +287,15 @@
             }, {
                 field: 'topupdate',
                 title: '充值日期'
+            },{
+                field: 'nameoftank',
+                title: '油罐名称'
             }, {
                 field: 'product',
                 title: '油品名称'
             }, {
                 field: 'numberof',
-                title: '数量',
-                formatter:function () {
-                    $.ajax({
-                        url:'/webapi/tank/update',
-                        data:
-                    })
-
-                }
+                title: '数量'
             }, {
                 field: 'unitprice',
                 title: '单价'
@@ -392,6 +394,9 @@
                 field: 'topupdate',
                 title: '充值日期'
             }, {
+                field: 'nameoftank',
+                title: '油罐名称'
+            },{
                 field: 'product',
                 title: '油品名称'
             }, {

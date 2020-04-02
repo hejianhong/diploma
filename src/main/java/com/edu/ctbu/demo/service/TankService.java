@@ -1,8 +1,6 @@
 package com.edu.ctbu.demo.service;
 
 
-import com.edu.ctbu.demo.domain.Employees;
-import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.domain.Tank;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,9 @@ public interface TankService {
 
     public Page<Tank> findAll(Example<Tank> tank, Pageable pageable);
 
-    public List<Tank> findByNameoftank(String nameoftank);
+    public Tank findByNameoftank(String nameoftank);
+
+    public List<Tank> findByProduct(String product);
 
     Tank insert(Tank tank);
 

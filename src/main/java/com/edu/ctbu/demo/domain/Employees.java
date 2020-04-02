@@ -22,7 +22,7 @@ public class Employees {
 
     private Integer gender;
 
-    private Integer phonenumber;
+    private String phonenumber;
 
     private String shift;
 
