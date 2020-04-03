@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>消费列表页</title>
 </head>
 <body>
 
@@ -26,15 +26,18 @@
 
 <div class="container-fluid">
 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+        新增加油项
+    </button>
 
-
-    <h2>消费信息表</h2>
+    <h2>加油信息表</h2>
     <br>
 
     <form class="form-inline">
         <div class="form-group">
-            <label for="searchMembername">请输入名字</label>
-            <input type="text" class="form-control" id="searchMembername" placeholder="请输入名称" name="searchMembername">
+            <label for="searchNameoftank">请输入油罐名称</label>
+            <input type="text" class="form-control" id="searchNameoftank" placeholder="请输入名称" name="searchNameoftank">
         </div>
 
         <button type="button" class="btn btn-default" onclick="search();">查询</button>
@@ -44,12 +47,14 @@
 
     <form class="form-inline">
         <div class="form-group">
-            <label for="searchCardnumber">请输入卡号</label>
-            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
+            <label for="searchProduct">请输入油品名称</label>
+            <input type="text" class="form-control" id="searchProduct" placeholder="请输入油品名称" name="searchProduct">
         </div>
 
-        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
+        <button type="button" class="btn btn-default" onclick="searchproduct();">查询</button>
     </form>
+
+    <br>
 
     <br>
     <table class="table table-bordered" id="casTable">
@@ -62,7 +67,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">消费信息</h4>
+                <h4 class="modal-title">会员信息</h4>
             </div>
             <div class="modal-body">
 
@@ -70,26 +75,24 @@
 
                     <input hidden="hidden" id="id" name="id">
                     <div class="form-group">
-                        <label for="membername">姓名</label>
-                        <input type="text" class="form-control" id="membername" name="membername" placeholder="姓名">
-                    </div>
-                    <div class="form-group">
                         <label for="cardnumber">卡号</label>
                         <input type="text" class="form-control" id="cardnumber" name="cardnumber" placeholder="卡号">
                     </div>
                     <div class="form-group">
+                        <label for="lplatenumber">车牌号码</label>
+                        <input type="text" class="form-control" id="lplatenumber" name="lplatenumber" placeholder="车牌号码">
+                    </div>
+                    <div class="form-group">
                         <label for="kaneamount">卡内金额</label>
                         <input type="text" class="form-control" id="kaneamount" name="kaneamount" placeholder="卡内金额">
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="topupamount">充值金额</label>
                         <input type="text" class="form-control" id="topupamount" name="topupamount" placeholder="充值金额">
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="topupdate">充值日期</label>
-                        <input type="text" class="form-control" id="topupdate" name="topupdate" placeholder="家庭地址">
+                        <input type="text" class="form-control" id="topupdate" name="topupdate" placeholder="充值日期">
                     </div>
                     <div class="form-group">
                         <label for="nameoftank">油罐名称</label>
@@ -116,8 +119,20 @@
                         <input type="text" class="form-control" id="paidin" name="paidin" placeholder="实收金额">
                     </div>
                     <div class="form-group">
+                        <label for="comeontime">加油时间</label>
+                        <input type="text" class="form-control" id="comeontime" name="comeontime" placeholder="加油时间">
+                    </div>
+                    <div class="form-group">
                         <label for="termsofpayment">付款方式</label>
                         <input type="text" class="form-control" id="termsofpayment" name="termsofpayment" placeholder="付款方式">
+                    </div>
+                    <div class="form-group">
+                        <label for="cumulative">累积消费</label>
+                        <input type="text" class="form-control" id="cumulative" name="cumulative" placeholder="累积消费">
+                    </div>
+                    <div class="form-group">
+                        <label for="accumulatedtopup">累积充值</label>
+                        <input type="text" class="form-control" id="accumulatedtopup" name="accumulatedtopup" placeholder="累积充值">
                     </div>
                 </form>
 
@@ -142,12 +157,13 @@
         loadTable();
     }
 
-    function searchcardnumber() {
+    function searchproduct() {
 
         $('#casTable').bootstrapTable("destroy");
-        loadCardnumber();
+        loadProduct();
 
     }
+
 
     function preAdd() {
 
@@ -161,12 +177,10 @@
 
         var id = $("#id").val();
 
-
-
         if (id < 1) {
 
             $.ajax({
-                url: '/webapi/members/insert',
+                url: '/webapi/cast/insert',
                 method: 'post',
                 data: data
 
@@ -181,7 +195,7 @@
         } else {
 
             $.ajax({
-                url: '/webapi/members/update',
+                url: '/webapi/cast/update',
                 method: 'put',
                 data: data
 
@@ -189,12 +203,10 @@
 
                 loadTable();
 
-                $('#myModal').modal('hide');
+                $('#myModal').modal('hide')
 
             })
-
         }
-
     }
 
     function editCast(id) {
@@ -202,13 +214,13 @@
         $('#myModal').modal('show');
 
         $.ajax({
-            url: '/webapi/members/get/' + id
+            url: '/webapi/cast/get/' + id
 
         }).done(function(rs) {
 
             $('#id').val(rs.id);
-            $('#membername').val(rs.membername);
             $('#cardnumber').val(rs.cardnumber);
+            $('#lplatenumber').val(rs.lplatenumber);
             $('#kaneamount').val(rs.kaneamount);
             $('#topupamount').val(rs.topupamount);
             $('#topupdate').val(rs.topupdate);
@@ -218,33 +230,21 @@
             $('#unitprice').val(rs.unitprice);
             $('#receivableamount').val(rs.receivableamount);
             $('#paidin').val(rs.paidin);
+            $('#comeontime').val(rs.comeontime);
             $('#termsofpayment').val(rs.termsofpayment);
+            $('#cumulative').val(rs.cumulative);
+            $('#accumulatedtopup').val(rs.accumulatedtopup);
+
 
         })
 
     }
 
-    function deleteCast(id) {
 
-        if (confirm("确定删除？!")) {
-
-            $.ajax({
-                url: '/webapi/members/delete/' + id,
-                method: 'delete'
-
-            }).done(function() {
-
-                loadTable();
-
-            });
-
-        }
-    }
-
-    function loadCardnumber() {
+    function loadProduct() {
 
         $('#casTable').bootstrapTable({
-            url: '/webapi/members/getbypagecard',
+            url: '/webapi/cast/getbypageproduct',
             striped: true,
             pagination: true,
             singleSelect: false,
@@ -258,7 +258,7 @@
                     page: params.offset / params.limit,
                     sort: "id",
                     direct: "desc",
-                    gender: $("#searchCardnumber").val(),
+                    product: $("#searchProduct").val(),
                 };
 
                 return paraObj;
@@ -267,27 +267,27 @@
                 field: 'id',
                 title: '序号'
             }, {
-                field: 'membername',
-                title: '姓名'
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'lplatenumber',
+                title: '车牌号码'
+            }, {
+                field: 'kaneamount',
+                title: '卡内金额'
             }, {
                 field: 'cardnumber',
                 title: '卡号'
             }, {
-                field: 'kaneamount',
-                title: '卡内金额',
-                formatter: function(value,row,index){
-
-                    var mon = row.kaneamount + row.topupamount;
-
-                    return mon;
-                }
-            }, {
                 field: 'topupamount',
                 title: '充值金额'
             }, {
+                field: 'lplatenumber',
+                title: '车牌号码'
+            }, {
                 field: 'topupdate',
                 title: '充值日期'
-            },{
+            }, {
                 field: 'nameoftank',
                 title: '油罐名称'
             }, {
@@ -301,25 +301,22 @@
                 title: '单价'
             }, {
                 field: 'receivableamount',
-                title: '应收金额',
-                formatter: function(value,row,index){
-
-                    var tol = row.numberof.parseFloat() * row.unitprice.parseFloat();
-
-                    return tol;
-                }
+                title: '应收金额'
             }, {
                 field: 'paidin',
-                title: '实收金额',
-                formatter: function(value,row,index){
-
-                    var inf = row.receivableamount;
-
-                    return inf;
-                }
+                title: '实收金额'
+            }, {
+                field: 'comeontime',
+                title: '加油时间'
             }, {
                 field: 'termsofpayment',
                 title: '付款方式'
+            }, {
+                field: 'cumulative',
+                title: '累积消费'
+            }, {
+                field: 'accumulatedtopup',
+                title: '累积充值'
             }, {
                 field: '...',
                 title: '操作',
@@ -327,9 +324,6 @@
                 events: {
                     'click #edit': function (event, value, row, index){
                         editCast(row.id);
-                    },
-                    'click #dele': function(event, value, row, index){
-                        deleteCast(row.id);
                     }
                 }
             }]
@@ -339,7 +333,6 @@
 
             var html =
                 '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
-                + '<span>  </span>'+'<a id="dele"><i class="fa fa-trash-o fa-2x" style="color: red" title="删除"></i> </a>'
 
             return html;
         }
@@ -350,7 +343,7 @@
     function loadTable() {
 
         $('#casTable').bootstrapTable({
-            url: '/webapi/members/getbypagemembername',
+            url: '/webapi/cast/getbypagenameoftank',
             striped: true,
             pagination: true,
             singleSelect: false,
@@ -364,7 +357,7 @@
                     page: params.offset / params.limit,
                     sort: "id",
                     direct: "desc",
-                    name: $("#searchMembername").val(),
+                    nameoftank: $("#searchNameoftank").val(),
                 };
 
                 return paraObj;
@@ -373,30 +366,30 @@
                 field: 'id',
                 title: '序号'
             }, {
-                field: 'membername',
-                title: '姓名'
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'lplatenumber',
+                title: '车牌号码'
+            }, {
+                field: 'kaneamount',
+                title: '卡内金额'
             }, {
                 field: 'cardnumber',
                 title: '卡号'
             }, {
-                field: 'kaneamount',
-                title: '卡内金额',
-                formatter: function(value,row,index){
-
-                    var mon = row.kaneamount + row.topupamount;
-
-                    return mon;
-                }
-            }, {
                 field: 'topupamount',
                 title: '充值金额'
+            }, {
+                field: 'lplatenumber',
+                title: '车牌号码'
             }, {
                 field: 'topupdate',
                 title: '充值日期'
             }, {
                 field: 'nameoftank',
                 title: '油罐名称'
-            },{
+            }, {
                 field: 'product',
                 title: '油品名称'
             }, {
@@ -407,25 +400,22 @@
                 title: '单价'
             }, {
                 field: 'receivableamount',
-                title: '应收金额',
-                formatter: function(value,row,index){
-
-                    var tol = parseFloat(row.numberof) * parseFloat(row.unitprice);
-
-                    return tol;
-                }
+                title: '应收金额'
             }, {
                 field: 'paidin',
-                title: '实收金额',
-                formatter: function(value,row,index){
-
-                    var inf = row.receivableamount;
-
-                    return inf;
-                }
+                title: '实收金额'
+            }, {
+                field: 'comeontime',
+                title: '加油时间'
             }, {
                 field: 'termsofpayment',
                 title: '付款方式'
+            }, {
+                field: 'cumulative',
+                title: '累积消费'
+            }, {
+                field: 'accumulatedtopup',
+                title: '累积充值'
             }, {
                 field: '...',
                 title: '操作',
@@ -433,9 +423,6 @@
                 events: {
                     'click #edit': function (event, value, row, index){
                         editCast(row.id);
-                    },
-                    'click #dele': function(event, value, row, index){
-                        deleteCast(row.id);
                     }
                 }
             }]
@@ -445,12 +432,11 @@
 
             var html =
                 '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
-                + '<span>  </span>'+ '<a id="dele"><i class="fa fa-trash-o fa-2x"  style="color: red" title="删除"></i> </a>'
             return html;
         }
 
 
-    } //end of loadTable
+    }//end of loadTable
 
     $(function() {
 

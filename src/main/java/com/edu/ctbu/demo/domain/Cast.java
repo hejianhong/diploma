@@ -40,5 +40,11 @@ public class Cast {
 
     private Float paidin;//实收金额
 
+    private String comeontime;//加油时间
+
     private String termsofpayment;//付款方式
+
+    private Float cumulative;//累积消费
+
+    private Float accumulatedtopup;//累积充值
 }

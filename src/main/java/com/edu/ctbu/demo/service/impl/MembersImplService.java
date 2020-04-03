@@ -2,6 +2,7 @@ package com.edu.ctbu.demo.service.impl;
 
 
 import com.edu.ctbu.demo.dao.MembersRepository;
+import com.edu.ctbu.demo.domain.Cast;
 import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import com.edu.ctbu.demo.service.MembersService;
@@ -35,6 +36,15 @@ public class MembersImplService implements MembersService {
         return membersRepository.findAll(members,pageable);
     }
 
+    public List<Members> findByCardnumber(Long cardnumber){
+
+        return membersRepository.findByCardnumber(cardnumber);
+    }
+
+    public List<Members> findByMembername(String membername){
+
+        return membersRepository.findByMembername(membername);
+    }
 
 
     public List<Members> findByIsvip(Integer isvip){

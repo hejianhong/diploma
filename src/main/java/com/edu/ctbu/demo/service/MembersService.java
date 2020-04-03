@@ -1,6 +1,7 @@
 package com.edu.ctbu.demo.service;
 
 
+import com.edu.ctbu.demo.domain.Cast;
 import com.edu.ctbu.demo.domain.Employees;
 import com.edu.ctbu.demo.domain.Members;
 import org.springframework.data.domain.Example;
@@ -18,6 +19,10 @@ public interface MembersService {
     Page<Members> findAll(Pageable pageable);
 
     public Page<Members> findAll(Example<Members> members, Pageable pageable);
+
+    public List<Members> findByCardnumber(Long cardnumber);
+
+    public List<Members> findByMembername(String membername);
 
     public List<Members> findByIsvip(Integer isvip);
 

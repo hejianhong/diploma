@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface MembersRepository extends JpaRepository<Members,Long> {
 
+    public List<Members> findByCardnumber(Long cardnumber);
+
+    public List<Members> findByMembername(String membername);
 
     public List<Members> findByIsvip(Integer isvip);
-
 
 }

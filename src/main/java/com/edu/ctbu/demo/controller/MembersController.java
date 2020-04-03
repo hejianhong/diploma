@@ -36,20 +36,4 @@ public class MembersController {
         return "/information/Members/memberslist";
     }
 
-    @RequestMapping("information/Members/castlist")
-    public String cast(HttpServletRequest httprequest, Model model){
-
-        HttpSession session = httprequest.getSession();
-
-        if (session.getAttribute("userid") == null) {
-
-            return "redirect:/login/login";
-        }
-
-        List<Members> members = membersService.finAll();
-
-        model.addAttribute("data", members);
-
-        return "/information/Members/castlist";
-    }
 }
