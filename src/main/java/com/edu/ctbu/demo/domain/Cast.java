@@ -22,12 +22,6 @@ public class Cast {
 
     private String lplatenumber;//车牌号码
 
-    private Float kaneamount;//卡内金额
-
-    private Float topupamount;//充值金额
-
-    private String topupdate;//充值日期
-
     private String nameoftank;//油罐名称
 
     private String product;//油品名称
@@ -46,5 +40,4 @@ public class Cast {
 
     private Float cumulative;//累积消费
 
-    private Float accumulatedtopup;//累积充值
 }

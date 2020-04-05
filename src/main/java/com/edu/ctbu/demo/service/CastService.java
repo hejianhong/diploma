@@ -23,9 +23,12 @@ public interface CastService {
 
     public List<Cast> findByProduct(String product);
 
+    public List<Cast> findByCardnumber(Long cardnumber);
+
     Cast insert(Cast cast);
 
     Cast update(Cast cast);
 
     Cast getById(Long id);
+
 }

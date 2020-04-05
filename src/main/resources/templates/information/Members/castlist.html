@@ -56,6 +56,17 @@
 
     <br>
 
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchCardnumber">请输入卡号</label>
+            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
+    </form>
+
+    <br>
+
     <br>
     <table class="table table-bordered" id="casTable">
 
@@ -81,18 +92,6 @@
                     <div class="form-group">
                         <label for="lplatenumber">车牌号码</label>
                         <input type="text" class="form-control" id="lplatenumber" name="lplatenumber" placeholder="车牌号码">
-                    </div>
-                    <div class="form-group">
-                        <label for="kaneamount">卡内金额</label>
-                        <input type="text" class="form-control" id="kaneamount" name="kaneamount" placeholder="卡内金额">
-                    </div>
-                    <div class="form-group">
-                        <label for="topupamount">充值金额</label>
-                        <input type="text" class="form-control" id="topupamount" name="topupamount" placeholder="充值金额">
-                    </div>
-                    <div class="form-group">
-                        <label for="topupdate">充值日期</label>
-                        <input type="text" class="form-control" id="topupdate" name="topupdate" placeholder="充值日期">
                     </div>
                     <div class="form-group">
                         <label for="nameoftank">油罐名称</label>
@@ -130,10 +129,7 @@
                         <label for="cumulative">累积消费</label>
                         <input type="text" class="form-control" id="cumulative" name="cumulative" placeholder="累积消费">
                     </div>
-                    <div class="form-group">
-                        <label for="accumulatedtopup">累积充值</label>
-                        <input type="text" class="form-control" id="accumulatedtopup" name="accumulatedtopup" placeholder="累积充值">
-                    </div>
+
                 </form>
 
             </div>
@@ -164,6 +160,12 @@
 
     }
 
+    function searchcardnumber(){
+
+        $('#casTable').bootstrapTable("destroy");
+        loadCardnumber();
+    }
+
 
     function preAdd() {
 
@@ -172,6 +174,28 @@
     }
 
     function saveCast() {
+
+        var num = $("#numberof").val() * $("#unitprice").val();
+
+        $("#paidin").val(num);
+
+        $("#receivableamount").val(num);
+
+        $("#cumulative").val(num);
+
+        if ($("#receivableamount").val(num)>0){
+
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth()+1;
+            var date = now.getDate();
+            var hour = now.getHours();//得到小时
+            var minu = now.getMinutes();//得到分钟
+
+            var nowtime = year +"年-"+month+"月-"+date+"日-"+hour+"点-"+minu+"分";
+
+            $("#comeontime").val(nowtime);
+        }
 
         var data = $("#formCast").serialize();
 
@@ -221,9 +245,6 @@
             $('#id').val(rs.id);
             $('#cardnumber').val(rs.cardnumber);
             $('#lplatenumber').val(rs.lplatenumber);
-            $('#kaneamount').val(rs.kaneamount);
-            $('#topupamount').val(rs.topupamount);
-            $('#topupdate').val(rs.topupdate);
             $('#nameoftank').val(rs.nameoftank);
             $('#product').val(rs.product);
             $('#numberof').val(rs.numberof);
@@ -233,7 +254,6 @@
             $('#comeontime').val(rs.comeontime);
             $('#termsofpayment').val(rs.termsofpayment);
             $('#cumulative').val(rs.cumulative);
-            $('#accumulatedtopup').val(rs.accumulatedtopup);
 
 
         })
@@ -273,21 +293,6 @@
                 field: 'lplatenumber',
                 title: '车牌号码'
             }, {
-                field: 'kaneamount',
-                title: '卡内金额'
-            }, {
-                field: 'cardnumber',
-                title: '卡号'
-            }, {
-                field: 'topupamount',
-                title: '充值金额'
-            }, {
-                field: 'lplatenumber',
-                title: '车牌号码'
-            }, {
-                field: 'topupdate',
-                title: '充值日期'
-            }, {
                 field: 'nameoftank',
                 title: '油罐名称'
             }, {
@@ -314,30 +319,93 @@
             }, {
                 field: 'cumulative',
                 title: '累积消费'
-            }, {
-                field: 'accumulatedtopup',
-                title: '累积充值'
-            }, {
-                field: '...',
-                title: '操作',
-                formatter: addBtton,
-                events: {
-                    'click #edit': function (event, value, row, index){
-                        editCast(row.id);
-                    }
-                }
             }]
         });
 
-        function addBtton(){
-
-            var html =
-                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x" style="color: goldenrod" title="编辑"></i></a>'
-
-            return html;
-        }
 
     }
+
+
+    function loadCardnumber() {
+
+        $('#casTable').bootstrapTable({
+            url: '/webapi/cast/getbypagecardnumber',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    cardnumber: $("#searchCardnumber").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'lplatenumber',
+                title: '车牌号码'
+            }, {
+                field: 'nameoftank',
+                title: '油罐名称'
+            }, {
+                field: 'product',
+                title: '油品名称'
+            }, {
+                field: 'numberof',
+                title: '数量'
+            }, {
+                field: 'unitprice',
+                title: '单价'
+            }, {
+                field: 'receivableamount',
+                title: '应收金额',
+                formatter:function (value,row,index) {
+
+                    var totl;
+
+                    totl = row.numberof * row.unitprice;
+
+                    return totl;
+                }
+            }, {
+                field: 'paidin',
+                title: '实收金额',
+                formatter:function (value ,row,index) {
+
+                    var tru;
+
+                    tru = row.numberof * row.unitprice;
+
+                    return tru;
+                }
+            }, {
+                field: 'comeontime',
+                title: '加油时间'
+            }, {
+                field: 'termsofpayment',
+                title: '付款方式'
+            }, {
+                field: 'cumulative',
+                title: '累积消费'
+            }]
+        });
+
+
+
+    }//end of loadTable
 
 
     function loadTable() {
@@ -372,21 +440,6 @@
                 field: 'lplatenumber',
                 title: '车牌号码'
             }, {
-                field: 'kaneamount',
-                title: '卡内金额'
-            }, {
-                field: 'cardnumber',
-                title: '卡号'
-            }, {
-                field: 'topupamount',
-                title: '充值金额'
-            }, {
-                field: 'lplatenumber',
-                title: '车牌号码'
-            }, {
-                field: 'topupdate',
-                title: '充值日期'
-            }, {
                 field: 'nameoftank',
                 title: '油罐名称'
             }, {
@@ -413,30 +466,11 @@
             }, {
                 field: 'cumulative',
                 title: '累积消费'
-            }, {
-                field: 'accumulatedtopup',
-                title: '累积充值'
-            }, {
-                field: '...',
-                title: '操作',
-                formatter: addBtton,
-                events: {
-                    'click #edit': function (event, value, row, index){
-                        editCast(row.id);
-                    }
-                }
             }]
         });
 
-        function addBtton(){
 
-            var html =
-                '<a id="edit"><i class="fa fa-pencil-square-o fa-2x"  style="color:goldenrod " title="编辑"></i></a>'
-            return html;
-        }
-
-
-    }//end of loadTable
+    }
 
     $(function() {
 

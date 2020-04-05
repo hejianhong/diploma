@@ -109,7 +109,44 @@ public class CastRestControlleer {
         return pageUtils;
     }
 
+    @GetMapping("/getbypagecardnumber")
+    public PageUtils getByPagecardnumber(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                      @RequestParam(value = "nameoftank", defaultValue = "") String nameoftank,
+                                      @RequestParam(value = "cardnumber", defaultValue = "") Long cardnumber) {
 
+        //按照id排序
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        Page<Cast> castsPage;
+
+        if (StringUtils.isEmpty(cardnumber)) {
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            castsPage = castService.findAll(pageable);
+
+        } else {
+
+            Cast cast = new Cast();
+
+            cast.setCardnumber(cardnumber);
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            ExampleMatcher matcher = ExampleMatcher.matching()
+
+                    .withMatcher("cardnumber", ExampleMatcher.GenericPropertyMatchers.contains());
+
+            Example<Cast> example = Example.of(cast, matcher);
+
+            castsPage = castService.findAll(example, pageable);
+        }
+
+        PageUtils pageUtils = new PageUtils(castsPage.getContent(), castsPage.getTotalElements());
+
+        return pageUtils;
+    }
 
     @PostMapping("insert")
     public Cast insert(Cast cast){
@@ -133,4 +170,6 @@ public class CastRestControlleer {
 
         return cast;
     }
+
+
 }

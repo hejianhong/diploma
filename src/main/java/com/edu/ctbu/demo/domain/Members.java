@@ -24,6 +24,10 @@ public class Members {
 
     private Float originalamount;//原始金额
 
+    private Float topupamount;//充值金额
+
+    private String topupdate;//充值日期
+
     private String lplatenumber;//车牌号码
 
     private String vehicletype;//车辆类型
@@ -42,5 +46,6 @@ public class Members {
 
     private Integer isvip;
 
+    private Float accumulatedtopup;//累积充值
 
 }

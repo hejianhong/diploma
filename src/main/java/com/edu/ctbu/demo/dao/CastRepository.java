@@ -17,4 +17,6 @@ public interface CastRepository  extends JpaRepository<Cast, Long> {
 
     public List<Cast> findByProduct(String product);
 
+
+    public List<Cast> findByCardnumber(Long cardnumber);
 }

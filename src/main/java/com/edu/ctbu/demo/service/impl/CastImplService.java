@@ -45,6 +45,11 @@ public class CastImplService implements CastService {
         return castRepository.findByProduct(product);
     }
 
+    public List<Cast> findByCardnumber(Long cardnumber){
+
+        return castRepository.findByCardnumber(cardnumber);
+    }
+
     public Cast insert(Cast cast){
 
         return castRepository.save(cast);
@@ -59,4 +64,5 @@ public class CastImplService implements CastService {
 
         return castRepository.findById(id).orElse(null);
     }
+
 }
