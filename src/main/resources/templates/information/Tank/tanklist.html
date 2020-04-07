@@ -270,7 +270,13 @@
                 title: '转换比例'
             }, {
                 field: 'inventoryfloor',
-                title: '库存下限'
+                title: '库存下限',
+                formatter:function (value,row,index) {
+
+                    if (row.stockupseveral<=row.inventoryfloor) {
+                        alert("库存不足！！！请及时补充");
+                    }
+                }
             }, {
                 field: 'stockupseveral',
                 title: '库存升数'
@@ -352,7 +358,13 @@
                 title: '转换比例'
             }, {
                 field: 'inventoryfloor',
-                title: '库存下限'
+                title: '库存下限',
+                formatter:function (value,row,index) {
+
+                    if (row.stockupseveral<=row.inventoryfloor) {
+                        alert("库存不足！！！请及时补充");
+                    }
+                }
             }, {
                 field: 'stockupseveral',
                 title: '库存升数'

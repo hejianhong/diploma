@@ -231,6 +231,37 @@
 
             })
         }
+
+        var nameoftank = $("#nameoftank").val();
+
+        var numb = $("#numberof").val();
+
+        $.ajax({
+            url:"/webapi/tank/getby/" + nameoftank
+        }).done(function(rs){
+
+            rs.stockupseveral = rs.stockupseveral - numb;
+
+            var da = {
+                id:rs.id,
+                nameoftank:rs.nameoftank,
+                product:rs.product,
+                categories:rs.categories,
+                inventorytonnage:rs.inventorytonnage,
+                conversionratio:rs.conversionratio,
+                inventoryfloor:rs.inventoryfloor,
+                stockupseveral:rs.stockupseveral,
+                retailprice:rs.retailprice,
+                note:rs.note,
+                dateregistration:rs.dateregistration
+            }
+
+            $.ajax({
+                url:"/webapi/tank/update",
+                method:"put",
+                data:da
+            })
+        })
     }
 
     function editCast(id) {
@@ -254,7 +285,6 @@
             $('#comeontime').val(rs.comeontime);
             $('#termsofpayment').val(rs.termsofpayment);
             $('#cumulative').val(rs.cumulative);
-
 
         })
 
@@ -322,9 +352,7 @@
             }]
         });
 
-
     }
-
 
     function loadCardnumber() {
 
@@ -404,7 +432,6 @@
         });
 
 
-
     }//end of loadTable
 
 
@@ -469,7 +496,6 @@
             }]
         });
 
-
     }
 
     $(function() {
@@ -479,8 +505,6 @@
     });
 
 </script>
-
-
 
 </body>
 </html>
