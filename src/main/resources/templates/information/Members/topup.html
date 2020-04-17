@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值列表页</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>充值列表</title>
+
+    <script src="/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+        充值
+    </button>
+
+    <h2>充值信息表</h2>
+    <br>
+
+    <br>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="searchCardnumber">请输入卡号</label>
+            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
+        </div>
+
+        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
+    </form>
+
+    <br>
+
+    <br>
+</div>
+
+<div class="left"  style="width: 50% ; " >
+    <table class="table table-bordered" id="topTable" style="width: 1200px">
+
+    </table>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">充值信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="formtopup">
+
+                    <input hidden="hidden" id="id" name="id">
+                    <div class="form-group">
+                        <label for="cardnumber">卡号</label>
+                        <input type="text" class="form-control" id="cardnumber" name="cardnumber" placeholder="卡号">
+                    </div>
+                    <div class="form-group">
+                        <label for="topupamount">充值金额</label>
+                        <input type="text" class="form-control" id="topupamount" name="topupamount" placeholder="充值金额">
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveTop();">确认</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script type="text/javascript">
+
+
+
+    function searchcardnumber(){
+
+        $('#topTable').bootstrapTable("destroy");
+        loadCardnumber();
+    }
+
+
+    function preAdd() {
+
+        $("#id").val(0);
+
+    }
+
+    function saveTop() {
+
+        var topupnum = $("#topupamount").val();
+
+        var card = $("#cardnumber").val();
+
+        card = parseInt(card);
+
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var date = now.getDate();
+        var hour = now.getHours();//得到小时
+        var minu = now.getMinutes();//得到分钟
+
+        var nowtime = year +"年-"+month+"月-"+date+"日-"+hour+"点-"+minu+"分";
+
+
+        var data = {
+            cardnumber:card,
+            topupamount:topupnum,
+            topupdate:nowtime
+        }
+
+        $.ajax({
+            url: '/webapi/topup/insert',
+            method: 'post',
+            data: data
+
+        }).done(function() {
+
+            loadCardnumber();
+
+            $('#myModal').modal('hide');
+        })
+
+
+        $.ajax({
+            url:'/webapi/members/getby/'+card
+        }).done(function(rs){
+
+            var newa = rs.initialamount + topupnum;
+
+            var newb = rs.accumulatedtopup + topupnum;
+
+            var da = {
+                id:rs.id,
+                cardnumber:rs.cardnumber,
+                membername:rs.membername,
+                gender:rs.gender,
+                lplatenumber:rs.lplatenumber,
+                vehicletype:rs.vehicletype,
+                vehicletypel:rs.vehicletypel,
+                phonenumber:rs.phonenumber,
+                entity:rs.entity,
+                carddate:rs.carddate,
+                address:rs.address,
+                note:rs.note,
+                initialamount:newa,
+                isvip:rs.isvip,
+                accumulatedtopup:newb
+            }
+
+            $.ajax({
+                url:'/webapi/members/update',
+                method:'put',
+                data:da
+            }).done(function(){
+                alert("充值成功");
+            })
+        })
+
+    }
+
+    function loadCardnumber() {
+
+        $('#topTable').bootstrapTable({
+            url: '/webapi/topup/getbypagecardnumber',
+            striped: true,
+            pagination: true,
+            singleSelect: false,
+            pageSize: 3,
+            pageNumber: 1,
+            sidePagination: "server",
+            queryParams: function(params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "desc",
+                    cardnumber: $("#searchCardnumber").val(),
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                field: 'id',
+                title: '序号'
+            }, {
+                field: 'cardnumber',
+                title: '卡号'
+            }, {
+                field: 'originalamount',
+                title: '原始金额'
+            }, {
+                field: 'topupamount',
+                title: '充值金额'
+            }, {
+                field: 'topupdate',
+                title: '充值日期'
+            }]
+        });
+
+
+    }//end of loadTable
+
+
+    $(function() {
+
+        loadCardnumber();
+
+    });
+
+</script>
+
+</body>
+</html>

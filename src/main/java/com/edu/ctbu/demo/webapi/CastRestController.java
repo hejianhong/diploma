@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/webapi/cast")
-public class CastRestControlleer {
+public class CastRestController {
 
     @Autowired
     private CastService castService;
@@ -148,7 +148,7 @@ public class CastRestControlleer {
         return pageUtils;
     }
 
-    @PostMapping("insert")
+    @PostMapping("/insert")
     public Cast insert(Cast cast){
 
         Cast cast1 = castService.insert(cast);

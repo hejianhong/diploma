@@ -22,12 +22,6 @@ public class Members {
 
     private Integer gender;
 
-    private Float originalamount;//原始金额
-
-    private Float topupamount;//充值金额
-
-    private String topupdate;//充值日期
-
     private String lplatenumber;//车牌号码
 
     private String vehicletype;//车辆类型
@@ -43,6 +37,8 @@ public class Members {
     private String address;
 
     private String note;
+
+    private Float initialamount;//当前余额
 
     private Integer isvip;
 

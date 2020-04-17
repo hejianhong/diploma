@@ -231,4 +231,12 @@ public class MembersRestController {
         membersService.delete(id);
 
     }
+
+    @GetMapping("/getby/{cardnumber}")
+    public Members getby(@PathVariable Long cardnumber){
+
+        Members members = membersService.findByCardnumber(cardnumber);
+
+        return members;
+    }
 }

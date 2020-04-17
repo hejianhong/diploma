@@ -20,7 +20,7 @@ public interface MembersService {
 
     public Page<Members> findAll(Example<Members> members, Pageable pageable);
 
-    public List<Members> findByCardnumber(Long cardnumber);
+    public Members findByCardnumber(Long cardnumber);
 
     public List<Members> findByMembername(String membername);
 

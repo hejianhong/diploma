@@ -36,7 +36,7 @@ public class MembersImplService implements MembersService {
         return membersRepository.findAll(members,pageable);
     }
 
-    public List<Members> findByCardnumber(Long cardnumber){
+    public Members findByCardnumber(Long cardnumber){
 
         return membersRepository.findByCardnumber(cardnumber);
     }
