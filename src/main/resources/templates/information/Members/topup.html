@@ -126,22 +126,30 @@
         var nowtime = year +"年-"+month+"月-"+date+"日-"+hour+"点-"+minu+"分";
 
 
-        var data = {
-            cardnumber:card,
-            topupamount:topupnum,
-            topupdate:nowtime
-        }
 
         $.ajax({
-            url: '/webapi/topup/insert',
-            method: 'post',
-            data: data
+            url:'/webapi/members/getby/'+card
+        }).done(function (rs) {
 
-        }).done(function() {
+            var data = {
+                cardnumber:card,
+                topupamount:topupnum,
+                topupdate:nowtime,
+                originalamount:rs.initialamount
+            }
 
-            loadCardnumber();
+            $.ajax({
+                url: '/webapi/topup/insert',
+                method: 'post',
+                data: data
 
-            $('#myModal').modal('hide');
+            }).done(function() {
+
+                loadCardnumber();
+
+                $('#myModal').modal('hide');
+            })
+
         })
 
 
@@ -149,9 +157,10 @@
             url:'/webapi/members/getby/'+card
         }).done(function(rs){
 
-            var newa = rs.initialamount + topupnum;
+            // console.log(rs);
+            var newa = parseFloat(rs.initialamount) + parseFloat(topupnum);
 
-            var newb = rs.accumulatedtopup + topupnum;
+            var newb = parseFloat(rs.accumulatedtopup) + parseFloat(topupnum);
 
             var da = {
                 id:rs.id,
@@ -171,12 +180,13 @@
                 accumulatedtopup:newb
             }
 
+
             $.ajax({
                 url:'/webapi/members/update',
                 method:'put',
                 data:da
             }).done(function(){
-                alert("充值成功");
+                console.log("充值成功");
             })
         })
 
