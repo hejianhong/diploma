@@ -20,48 +20,84 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css" />
 
 
+    <style>
+
+        .left{
+			height: 100%;
+            width: 50% ;
+            float: left;
+
+        }
+        .left h2{
+            display: flex;
+            justify-content: center;
+        }
+        .right{
+            width: 50%;
+            float: right;
+			border-left: 1px solid #1B6D85;
+        }
+        .posi{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+			height: 650px
+        }
+		.posi button{
+			display: flex;
+			justify-content: center;
+		}
+
+    </style>
+
 </head>
 
 <body>
 
 
-<div class="container-fluid">
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
-        新增员工
-    </button>
-
+<div class="left" >
     <h2>员工信息表</h2>
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchName">请输入名字</label>
-            <input type="text" class="form-control" id="searchName" placeholder="请输入名字" name="searchName">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="search();">查询</button>
-    </form>
-
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchGender">请输入性别</label>
-            <input type="text" class="form-control" id="searchGender" placeholder="1.男，0.女" name="searchGender">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchgender();">查询</button>
-    </form>
-
-    <br>
-</div>
-
-<div class="left"  style="width: 50% ; " >
     <table class="table table-bordered" id="empTable" style="width: 1200px">
 
     </table>
+</div>
+
+<div class="right">
+    <div class="posi">
+        <div class="container-fluid">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+                新增员工
+            </button>
+
+            <br>
+            <br>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="searchName">请输入名字</label>
+                    <input type="text" class="form-control" id="searchName" placeholder="请输入名字" name="searchName">
+                </div>
+
+                <button type="button" class="btn btn-default" onclick="search();">查询</button>
+            </form>
+
+            <br>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="searchGender">请输入性别</label>
+                    <input type="text" class="form-control" id="searchGender" placeholder="1.男，0.女" name="searchGender">
+                </div>
+
+                <button type="button" class="btn btn-default" onclick="searchgender();">查询</button>
+            </form>
+
+            <br>
+        </div>
+    </div>
 </div>
 
 

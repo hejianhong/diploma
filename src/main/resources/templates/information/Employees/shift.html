@@ -19,39 +19,72 @@
     <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
     <link rel="stylesheet" href="/css/font-awesome.min.css" />
 
+	<style>
+	
+	    .left{
+			height: 100%;
+	        width: 50% ;
+	        float: left;
+	
+	    }
+	    .left h2{
+	        display: flex;
+	        justify-content: center;
+	    }
+	    .right{
+			position: fixed;
+			right: 0;
+			height: 100%;
+	        width: 50%;
+	        float: right;
+			border-left: 1px solid #1B6D85;
+	    }
+	    .posi{
+	        display: flex;
+	        align-items: center;
+	        justify-content: center;
+			height: 650px
+	    }
+		.posi button{
+			display: flex;
+			justify-content: center;
+		}
+	
+	</style>
 
 </head>
 
 <body>
 
 
-<div class="container-fluid">
-
-
-    <h2>值班信息表</h2>
-    <br>
-
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchShift">请输入班次</label>
-            <input type="text" class="form-control" id="searchShift" placeholder="请输入班次" name="searchShift">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchshift();">确认</button>
-    </form>
-
-    <br>
-
-    <br>
-
-    <br>
-</div>
-
-<div class="left"  style="width: 50% ; " >
+<div class="left" >
+	<h2>值班信息表</h2>
     <table class="table table-bordered" id="shiTable" style="width: 1200px">
 
     </table>
+</div>
+
+<div class="right">
+  <div class="posi">
+	<div class="container-fluid">
+	
+	
+	    <br>
+	
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchShift">请输入班次</label>
+	            <input type="text" class="form-control" id="searchShift" placeholder="请输入班次" name="searchShift">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="searchshift();">确认</button>
+	    </form>
+	
+	    <br>
+	
+	</div>
+  </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">

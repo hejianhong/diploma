@@ -19,61 +19,100 @@
     <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
     <link rel="stylesheet" href="/css/font-awesome.min.css" />
 
+    <style>
+
+        .left{
+			height: 100%;
+            width: 50% ;
+            float: left;
+
+        }
+        .left h2{
+            display: flex;
+            justify-content: center;
+        }
+        .right{
+			position: fixed;
+			right: 0;
+			height: 100%;
+            width: 50%;
+            float: right;
+			border-left: 1px solid #1B6D85;
+        }
+        .posi{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+			height: 650px
+        }
+		.posi button{
+			display: flex;
+			justify-content: center;
+		}
+
+    </style>
 
 </head>
 
 <body>
 
-<div class="container-fluid">
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
-        新增加油项
-    </button>
 
-    <h2>加油信息表</h2>
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchNameoftank">请输入油罐名称</label>
-            <input type="text" class="form-control" id="searchNameoftank" placeholder="请输入名称" name="searchNameoftank">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="search();">查询</button>
-    </form>
-
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchProduct">请输入油品名称</label>
-            <input type="text" class="form-control" id="searchProduct" placeholder="请输入油品名称" name="searchProduct">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchproduct();">查询</button>
-    </form>
-
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchCardnumber">请输入卡号</label>
-            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
-    </form>
-
-    <br>
-
-    <br>
-</div>
-
-<div class="left"  style="width: 50% ; " >
-    <table class="table table-bordered" id="casTable" style="width: 1200px">
+<div class="left" >
+	<h2>加油信息表</h2>
+    <table class="table table-bordered" id="casTable" style="width: 1200px ;">
 
     </table>
+</div>
+
+<div class="right">
+  <div class="posi">
+	<div class="container-fluid">
+	
+	    <!-- Button trigger modal -->
+	    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+	        新增加油项
+	    </button>
+	
+	    
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchNameoftank">请输入油罐名称</label>
+	            <input type="text" class="form-control" id="searchNameoftank" placeholder="请输入名称" name="searchNameoftank">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+	    </form>
+	
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchProduct">请输入油品名称</label>
+	            <input type="text" class="form-control" id="searchProduct" placeholder="请输入油品名称" name="searchProduct">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="searchproduct();">查询</button>
+	    </form>
+	
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchCardnumber">请输入卡号</label>
+	            <input type="text" class="form-control" id="searchCardnumber" placeholder="请输入卡号" name="searchCardnumber">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="searchcardnumber();">查询</button>
+	    </form>
+	
+	    <br>
+	
+	    <br>
+	</div>
+  </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">

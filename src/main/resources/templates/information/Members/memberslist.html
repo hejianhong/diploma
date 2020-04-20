@@ -19,59 +19,96 @@
     <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/bootstrap-table.min.css" />
     <link rel="stylesheet" href="/css/font-awesome.min.css" />
 
+	<style>
+
+        .left{
+			height: 100%;
+            width: 50% ;
+            float: left;
+
+        }
+        .left h2{
+            display: flex;
+            justify-content: center;
+        }
+        .right{
+			position: fixed;
+			right: 0;
+			height: 100%;
+            width: 50%;
+            float: right;
+			border-left: 1px solid #1B6D85;
+        }
+        .posi{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+			height: 650px
+        }
+		.posi button{
+			display: flex;
+			justify-content: center;
+		}
+
+    </style>
 
 </head>
 
 <body>
 
-<div class="container-fluid">
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
-        新增会员
-    </button>
-
-    <h2>会员信息表</h2>
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchMembername">请输入名字</label>
-            <input type="text" class="form-control" id="searchMembername" placeholder="请输入名称" name="searchMembername">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="search();">查询</button>
-    </form>
-
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchGender">请输入性别</label>
-            <input type="text" class="form-control" id="searchGender" placeholder="1.男，0.女" name="searchGender">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchgender();">查询</button>
-    </form>
-
-    <br>
-
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="searchGender">请输入会员查询条件</label>
-            <input type="text" class="form-control" id="searchIsvip" placeholder="1.是会员，0.不是会员" name="searchIsvip">
-        </div>
-
-        <button type="button" class="btn btn-default" onclick="searchisvip();">查询</button>
-    </form>
-
-    <br>
-</div>
-
-<div class="left"  style="width: 50% ; " >
+<div class="left">
     <table class="table table-bordered" id="memTable" style="width: 1200px">
 
     </table>
+</div>
+
+<div class="right">
+  <div class="posi">
+	<div class="container-fluid">
+	
+	    <!-- Button trigger modal -->
+	    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="preAdd();">
+	        新增会员
+	    </button>
+	
+	    <h2>会员信息表</h2>
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchMembername">请输入名字</label>
+	            <input type="text" class="form-control" id="searchMembername" placeholder="请输入名称" name="searchMembername">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="search();">查询</button>
+	    </form>
+	
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchGender">请输入性别</label>
+	            <input type="text" class="form-control" id="searchGender" placeholder="1.男，0.女" name="searchGender">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="searchgender();">查询</button>
+	    </form>
+	
+	    <br>
+	
+	    <form class="form-inline">
+	        <div class="form-group">
+	            <label for="searchGender">请输入会员查询条件</label>
+	            <input type="text" class="form-control" id="searchIsvip" placeholder="1.是会员，0.不是会员" name="searchIsvip">
+	        </div>
+	
+	        <button type="button" class="btn btn-default" onclick="searchisvip();">查询</button>
+	    </form>
+	
+	    <br>
+	</div>
+  </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
