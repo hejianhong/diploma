@@ -19,9 +19,9 @@ public class Topup {
 
     private Long cardnumber;
 
-    private Float originalamount;//原始金额
+    private Double originalamount;//原始金额
 
-    private Float topupamount;//充值金额
+    private Double topupamount;//充值金额
 
     private String topupdate;//充值日期
 }

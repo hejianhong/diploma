@@ -38,10 +38,10 @@ public class Members {
 
     private String note;
 
-    private Float initialamount;//当前余额
+    private Double initialamount;//当前余额
 
     private Integer isvip;
 
-    private Float accumulatedtopup;//累积充值
+    private Double accumulatedtopup;//累积充值
 
 }

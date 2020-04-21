@@ -26,18 +26,18 @@ public class Cast {
 
     private String product;//油品名称
 
-    private Float numberof;//数量
+    private Double numberof;//数量
 
-    private Float unitprice;//单价
+    private Double unitprice;//单价
 
-    private Float receivableamount;//应收金额
+    private Double receivableamount;//应收金额
 
-    private Float paidin;//实收金额
+    private Double paidin;//实收金额
 
     private String comeontime;//加油时间
 
     private String termsofpayment;//付款方式
 
-    private Float cumulative;//累积消费
+    private Double cumulative;//累积消费
 
 }
