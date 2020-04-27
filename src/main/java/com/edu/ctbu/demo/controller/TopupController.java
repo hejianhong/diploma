@@ -15,6 +15,6 @@ public class TopupController {
     @RequestMapping("/information/Members/topup")
     public String topup(){
 
-        return "/information/Members/topup";
+        return "information/Members/topup";
     }
 }

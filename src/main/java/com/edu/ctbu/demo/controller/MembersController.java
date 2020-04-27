@@ -33,7 +33,7 @@ public class MembersController {
 
         model.addAttribute("data", members);
 
-        return "/information/Members/memberslist";
+        return "information/Members/memberslist";
     }
 
 }

@@ -33,7 +33,7 @@ public class EmployessController {
 
         model.addAttribute("data",employees);
 
-        return "/information/Employees/employeeslist";
+        return "information/Employees/employeeslist";
     }
 
     @RequestMapping("/information/qiandao/qiandao")

@@ -33,6 +33,6 @@ public class SupplierController {
 
         model.addAttribute("data", suppliers);
 
-        return "/information/Supplier/supplierlist";
+        return "information/Supplier/supplierlist";
     }
 }

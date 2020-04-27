@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/petrolstation?serverTimezone=GMT
     username: root
-    password: 123456
+    password: 13224903683He,
   jpa:
     hibernate:
       ddl-auto: none

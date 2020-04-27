@@ -33,6 +33,6 @@ public class TankController {
 
         model.addAttribute("data", tanks);
 
-        return "/information/Tank/tanklist";
+        return "information/Tank/tanklist";
     }
 }

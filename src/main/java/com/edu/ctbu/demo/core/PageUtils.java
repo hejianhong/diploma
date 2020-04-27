@@ -2,7 +2,6 @@ package com.edu.ctbu.demo.core;
 
 
 import lombok.Data;
-import sun.plugin2.message.Serializer;
 
 import java.io.Serializable;
 import java.util.List;

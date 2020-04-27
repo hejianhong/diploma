@@ -19,6 +19,6 @@ public class CastController {
     @RequestMapping("/information/Members/castlist")
     public String cast(){
 
-        return "/information/Members/castlist";
+        return "information/Members/castlist";
     }
 }
