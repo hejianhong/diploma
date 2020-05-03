@@ -1,23 +1,17 @@
 package com.edu.ctbu.demo.controller;
 
-
-import com.edu.ctbu.demo.service.CastService;
+import com.edu.ctbu.demo.service.GoodssalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 @Controller
-public class CastController {
-
+public class billController {
     @Autowired
-    CastService castService;
+    GoodssalesService goodssalesService;
 
-    @RequestMapping("/information/Members/castlist")
-    public String cast(){
-
-        return "information/Members/castlist";
+    @RequestMapping("/billmenu/bill")
+    public String list() {
+        return "/billmenu/bill";
     }
 }

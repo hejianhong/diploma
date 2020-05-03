@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/plugins/bootstraptable/gsales.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/plugins/bootstraptable/bootstrap-table.min.css">
+    <script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+    <script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/plugins/bootstraptable/bootstrap-table.css" rel="stylesheet" />
+    <script src="/plugins/bootstraptable/bootstrap-table.js"></script>
+    <script src="http://www.itxst.com/package/bootstrap-table-1.15.3/bootstrap-table.js"></script>
+
+</head>
+
+<body>
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">info</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formPetrol">
+                    <input hidden="hidden" id="id" name="id" />
+                    <div class="form-group">
+                        <label for="type">类型</label>
+                        <input type="text" class="form-control" id="type" name="type" onfocus="this.blur();">
+                    </div>
+                    <div class="form-group">
+                        <label for="goodsname">商品名称</label>
+                        <input type="text" class="form-control" id="goodsname" name="goodsname" onfocus="this.blur();">
+                    </div>
+                    <div class="form-group">
+                        <label for="salesprice">销售单价</label>
+                        <input type="text" class="form-control" id="salesprice" name="salesprice" placeholder="****元">
+                    </div>
+                    <div class="form-group">
+                        <label for="salesamount">销售数量</label>
+                        <input type="text" class="form-control" id="salesamount" name="salesamount" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="inprice">进购单价</label>
+                        <input type="text" class="form-control" id="inprice" name="inprice" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="netprofits">净利润</label>
+                        <input type="text" class="form-control" id="netprofits" name="netprofits" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="save();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="left" style=" overflow-y:auto; overflow-x:auto;">
+    <table class="table table-bordered" id="petrolTable">
+    </table>
+</div>
+<div class="right">
+    <i id="menuswitch" class="fa fa-angle-right fa-4x" style="z-index: 10;" aria-hidden="true"></i>
+    <button class="option" style="top: 37%;outline: none;" data-toggle="modal" data-target="#myModal" onclick="preAdd();">新增</button>
+    <button class="option" style="top: 53%;outline: none;" onclick="deletelist();">批量删除</button>
+    <button class="option" style="top: 70%;outline: none;" id="showAll">全部显示</button>
+    <div style="position: absolute;top: 8%;left: 40%;width: 200px;text-align: center;">
+        <label for="searchType">类型</label>
+        <select class="form-control" id="searchType" name="searchType">
+            <option value="">所有类型</option>
+            <option value="小吃">小吃</option>
+            <option value="日用品">日用品</option>
+            <option value="饮料">饮料</option>
+        </select>
+    </div>
+    <div style="position: absolute;top: 20%;left: 40%;width: 200px;text-align: center;">
+        <label for="searchGoodsname">商品名称</label>
+        <select class="form-control" id="searchGoodsname" name="searchGoodsname">
+        </select>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/plugins/bootstraptable/bootstrap-table.min.css">
+<script src="/plugins/bootstraptable/bootstrap-table.min.js"></script>
+<script src="/plugins/bootstraptable/locale/bootstrap-table-zh-CN.min.js"></script>
+</body>
+<script type="text/javascript">
+
+    var array=[
+        ["麻辣鱼干","薯片","干脆面","肉松饼","巧克力","泡椒鸡爪","蓝莓面包","辣条","牛肉罐头","蛋黄酥","麻辣豆干","方便面","坚果","葡萄干","曲奇饼干","芒果干"],
+        ["车载充电器","多接口型数据线","车载手机架","车载香水","车载摆件","毛巾","口罩","充电宝","香烟","一次性塑料袋","保温杯","手套","清洁剂","汽车润滑油","灭火毯","胶带"],
+        ["雀巢咖啡","益生元乳酸菌","伊利牛奶","蒙牛","特仑苏","安慕希酸奶","矿泉水","康师傅果汁饮料","娃哈哈AD钙奶","东鹏特饮","红牛维生素","菠萝啤","卡夫果珍","百事可乐","七喜","苏打水"]
+    ];
+    $("#searchType").on("change", function () {
+        $("#searchGoodsname").find('option').remove();
+        $("#searchGoodsname").append('<option value="">'+'所有商品'+'</option>');
+        switch($("#searchType option:selected").val())
+        {
+            case "小吃":
+                for(var i=0;i<16;i++)
+                {
+                    $("#searchGoodsname").append('<option value="'+array[0][i]+'">'+array[0][i]+'</option>');
+                }break;
+            case "日用品": for(var i=0;i<16;i++)
+            {
+                $("#searchGoodsname").append('<option value="'+array[1][i]+'">'+array[1][i]+'</option>');
+            }break;
+            case "饮料": for(var i=0;i<16;i++)
+            {
+                $("#searchGoodsname").append('<option value="'+array[2][i]+'">'+array[2][i]+'</option>');
+            }break;
+        }
+    });
+
+    $("#searchGoodsname").on("change", function () {
+        var goodsname=document.getElementById("searchGoodsname");
+        var goodsnameoption=goodsname.options[goodsname.selectedIndex].value;
+        $("#searchGoodsname").val(goodsnameoption);
+        loadTable();
+    });
+
+    var value=true;
+    $("#menuswitch").on("click", function () {
+        if(value)
+        {
+            $('.right').css({"border-left":"none","transform":"translateX(95%)","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            $('#menuswitch').css({"transform":"rotate(180deg)","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            $('.left').css({"width":"97%","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            value=false;
+        }
+        else{
+            $('.right').css({"border-left":"0.5px solid lightsteelblue","transform":"translateX(0)","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            $('#menuswitch').css({"transform":"rotate(0deg)","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            $('.left').css({"width":"49.8%","transition": "all 1s cubic-bezier(0.1,0.95,1,1)"});
+            value=true;
+        }
+    });
+
+    $("#showAll").on("click", function () {
+
+        $("#searchType").val(null);
+        $("#searchGoodsname").val(null);
+        loadTable();
+    });
+
+    function loadTable() {
+        $('#petrolTable').bootstrapTable({
+            url: '/webAPI/Goodsprofits/search',
+            method:'get',
+            stripped:true,
+            pagination:true,
+            singleSelect:false,
+            pageSize:5,
+            pageNumber:1,
+            sidePagination:"server",
+            pageList:[20,48],
+            queryParams: function (params) {
+
+                var paraObj = {
+                    size: params.limit,
+                    page: params.offset / params.limit,
+                    sort: "id",
+                    direct: "asc",
+                    goodsname: $("#searchGoodsname").val()
+                };
+
+                return paraObj;
+            },
+            columns: [{
+                checkbox:true,
+                align: "center"
+            }, {
+                formatter: function (value, row, index) {
+                    var pageSize = $('#petrolTable').bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                    var pageNumber = $('#petrolTable').bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                    return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                },
+                title: '序号',
+                align: "center"
+            }, {
+                field: 'type',
+                title: '类型',
+                align: "center"
+            }, {
+                field: 'goodsname',
+                title: '商品名称',
+                align: "center"
+            }, {
+                field: 'salesprice',
+                title: '销售单价',
+                align: "center"
+            }, {
+                field: 'salesamount',
+                title: '销售数量',
+                align: "center"
+            }, {
+                field: 'inprice',
+                title: '进购单价',
+                align: "center"
+            }, {
+                field: 'netprofits',
+                title: '净利润',
+                align: "center"
+            }, {
+                title: '操作',
+                formatter:function (value, row, index) {
+                    return "<div style='width: 15px;margin-left: 10px;position: relative;left: 20%;top: 30%'>"+
+                        "<a href='#' onclick='remove(\""+ row.id + "\")'><i class='fa fa-trash-o' aria-hidden='true'></i></a>"+
+                        "</div>"
+                },
+                cellStyle:{
+                    css:{"width":"70px"}
+                },
+                align: "center"
+            }]
+        });
+        $('#petrolTable').bootstrapTable('refresh');
+    }
+var loopend=48;//商品库存中的默认商品种类数量
+
+    function preAdd() {
+
+        $('#id').val(0);//新增
+        $('#type').val("");
+        $('#goodsname').val("");
+        $('#salesprice').val("");
+        $('#salesamount').val("");
+        $('#inprice').val("");
+        $('#netprofits').val("");
+        $("#formPetrol input").each(function(){  //遍历input标签将样式还原
+            $(this).css('border-color','#ccc');
+        });
+        $("#type").css('border-color','#ccc');
+        $("#goodsname").css('border-color','#ccc');
+    }
+
+    function save() {
+
+        var data = $("#formPetrol").serialize();
+        var i=0;
+        $("#formPetrol input").each(function(){  //遍历input标签，判断是否有内容未填写
+            var vl=$(this).val();
+            if(vl==""){
+                $(this).css('border-color','red');
+                i=1;
+            }else{
+                $(this).css('border-color','#ccc');
+            }
+        });
+        if(!($("#type option").is(":checked"))){
+            $("#type").css('border-color','red');
+            i=1;
+        }else{
+            $("#type").css('border-color','#ccc');
+        }
+        if(!($("#goodsname option").is(":checked"))){
+            $("#goodsname").css('border-color','red');
+            i=1;
+        }else{
+            $("#goodsname").css('border-color','#ccc');
+        }
+            if (i==1) {
+                alert('请将信息填写完整');
+            }else{
+                $.ajax({//新增
+                    url: '/webAPI/Goodsprofits/insert',
+                    method: "post",
+                    data: data
+                }).done(function (){
+                    $('#petrolTable').bootstrapTable('refresh');
+                    $('#myModal').modal('hide');
+                    loopend++;
+                })
+            }
+        }
+
+    function remove(id) {
+        if (confirm("确认删除？")){
+            $.ajax({
+                url:"/webAPI/Goodsprofits/delete/"+id,
+                method:"delete"
+            }).done(function(){
+                var data= $('#petrolTable').bootstrapTable('getData',{useCurrentPage:true,includeHiddenRows:false});//获取当前页的数据
+                var page=$('#petrolTable').bootstrapTable('getOptions').pageNumber;//获取当前被删掉的页面的页码
+                if ((data.length-1)==0)//-1是因为当前页面的数据被删后,被删的数据的id值依然存在,所以如果删了当前页面的最后一条数据,data的长度依然为1,所以需要-1
+                    $('#petrolTable').bootstrapTable("refreshOptions",{pageNumber:page-1});//返回上一页
+                $('#petrolTable').bootstrapTable('refresh');
+            });
+        }
+
+    }
+
+    function deletelist(){
+        //获取被选中的数据
+        var rows = $("#petrolTable").bootstrapTable('getSelections');
+        var data= $('#petrolTable').bootstrapTable('getData',{useCurrentPage:true,includeHiddenRows:false});//获取当前页的数据
+        if(rows.length==0){
+            alert("请选择需要删除的记录！");
+        }
+        else{
+            var ids=new Array();
+            for(var i=0;i<rows.length;i++){
+                ids[i]=rows[i]['id'];//往ids中存入被选中的所有id
+            }
+            if (confirm("确认删除？")) {
+                $.ajax({
+                    url: "/webAPI/Goodsprofits/deletelist/" + ids,
+                    method: "delete",
+                    data: {
+                        "ids": ids
+                    },
+                    success: function (count) {
+                        if (count > 0)
+                        {
+                            alert("你已成功删除" + count + "条记录！");
+                            data.length-=count;
+                        }
+                        else
+                            alert("删除失败！")
+                    }
+                }).done(function () {
+                    var page=$('#petrolTable').bootstrapTable('getOptions').pageNumber;//获取当前被删掉的页面的页码
+                    if (data.length==0&&page==1)//为0说i吗页面的data.length和被删的记录数相等,导致data.length-=count;后data.length为0,说明当前页的数据已被删完，且如果是为第一页的话，如果还有第二页，应该跳转到第二页的数据
+                        $('#petrolTable').bootstrapTable("refreshOptions",{pageNumber:1});//跳转到下一页
+                    else if(data.length==0&&page>1)//如果不是第一页，那就接着跳转到上一页/第一页
+                        $('#petrolTable').bootstrapTable("refreshOptions",{pageNumber:page-1});//跳转到上一页/第一页
+                    $('#petrolTable').bootstrapTable('refresh');
+                });
+            }else{
+                $('#petrolTable').find(":checkbox").prop("checked",false);
+                $('#petrolTable').bootstrapTable('refresh');
+            }
+        }
+    }
+
+    $(function () {
+        for(var i=1;i<=loopend;i++)
+        {
+            $.ajax({//取Goodsstorage表中的数据
+            url: '/webAPI/Goodsstorage/get/' + i,
+            method: "get",
+            async: false //设置异步传输为false，从而实现ajax嵌套同步多次传输数据的效果
+        }).done(function (rs) {
+
+            var newdata=rs.salesamount*(rs.salesprice-rs.inprice);
+            $('#id').val(i);
+            $('#type').val(rs.type);
+            $('#goodsname').val(rs.goodsname);
+            $('#salesprice').val(rs.salesprice);
+            $('#salesamount').val(rs.salesamount);
+            $('#inprice').val(rs.inprice);
+            $('#netprofits').val(newdata);
+            var data = $("#formPetrol").serialize();
+            $.ajax({//更新
+                url: '/webAPI/Goodsprofits/update',
+                method: "put",
+                data: data,
+                async: false
+            })
+        });
+        }
+        loadTable();
+    })
+</script>
+</html>
